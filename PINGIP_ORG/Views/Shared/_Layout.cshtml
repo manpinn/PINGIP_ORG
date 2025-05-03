@@ -1,50 +1,101 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - PINGIP_ORG</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/PINGIP_ORG.styles.css" asp-append-version="true" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - PINGIP.ORG</title>
+	<script type="importmap"></script>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	@* <link rel="stylesheet" href="~/PINGIP_ORG.styles.css" asp-append-version="true" /> *@
+	<link rel="stylesheet" href="~/css/Layout.css" asp-append-version="true" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">PINGIP_ORG</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+	<div class="navbar-ml ml-navbar-grid-container bg-primary">
+		<div class="navbar-ml-left">
+			<i id="navbar-ml-menu" class="bi-list navbar-ml-menu"></i>
+		</div>
+		<div class="navbar-ml-center navbar-ml-title">PINGIP.org</div>
+		@* <div class="navbar-ml-right">
+            <form class="d-flex" role="search">
+                <input class="form-control me-2 navbar-ml-right-search" type="search" placeholder="" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit">Search</button>
+            </form>
+        </div> *@
+	</div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - PINGIP_ORG - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+	<div class="ml-sidebar-content">
+		<div id="ml-sidebar" class="ml-sidebar">
+			<!-- content of the sidebar -->
+			<p style="margin-top:5px">@Html.ActionLink("PingIP", "Index", "Home", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
+			@* <p>@Html.ActionLink("Modules", "Index", "Module", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
+			<p>@Html.ActionLink("About", "About", "Home", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p> *@
+		</div>
+		<div class="container-ml" style="margin-left:10px; margin-right:10px;">
+			<main role="main" class="pb-3">
+				@RenderBody()
+			</main>
+			<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+				<div class="col-md-4 d-flex align-items-center">
+					<span class="mb-3 mb-md-0 text-body-secondary">© @DateTime.Now.Year Meicoti-Labs</span>
+				</div>
+			</footer>
+		</div>
+	</div>
+
+	<script>
+		const mediaQuery = window.matchMedia('(max-width: 1000px)');
+
+		const sidebar = document.querySelector('.ml-sidebar');
+
+		function showSidebar() {
+			sidebar.style.width = '250px'; // or any desired width
+			sidebar.style.opacity = '1';
+			sidebar.classList.add('active');
+		}
+
+		function hideSidebar() {
+			sidebar.style.width = '0px';
+			sidebar.style.opacity = '0';
+			sidebar.classList.remove('active');
+		}
+
+		function handleMediaQueryChange(event) {
+			if (event.matches) {
+				// Media query matches (screen width is 1000px or less)
+				sidebar.style.width = '0px';
+				sidebar.style.opacity = '0';
+				sidebar.style.transition = 'width 0.3s ease-in-out, opacity 0.3s ease-in-out';
+				sidebar.classList.remove('active');
+			} else {
+				// Media query does not match (screen width is greater than 1000px)
+				sidebar.style.width = '';
+				sidebar.style.opacity = '';
+				sidebar.style.transition = '';
+				sidebar.classList.add('active');
+			}
+		}
+
+		mediaQuery.addListener(handleMediaQueryChange);
+
+		handleMediaQueryChange(mediaQuery);
+
+		document.getElementById('navbar-ml-menu').addEventListener('click', function () {
+			if (sidebar.classList.contains('active')) {
+				hideSidebar();
+			} else {
+				showSidebar();
+			}
+		});
+
+
+
+
+
+	</script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

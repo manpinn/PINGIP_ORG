@@ -1,8 +1,128 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1 class="display-4 text-center border-bottom">PING IP-Addressses</h1>
+
+<p>Ping your desired IP-Address and get stats.</p>
+
+<div class="input-group mb-3">
+	<div class="input-group-prepend">
+		<span class="input-group-text" id="basic-addon1">IPV4/IPV6-Address</span>
+	</div>
+	<input id="input-ip" type="text" class="form-control" placeholder="Type in the Address here" aria-label="IPV4/IPV6-Address" aria-describedby="basic-addon1">
 </div>
+
+<div class="d-grid gap-2 d-md-flex">
+	<button id="btn-ping" class="btn btn-primary" type="button">Ping</button>
+</div>
+
+<div class="ml-spinner" style="display: none; align-items: center; margin-top:10px; margin-bottom:10px;">
+	<div class="spinner-grow text-secondary" role="status"></div>
+	<div style="margin-left: 10px;">Pinging ...</div>
+</div>
+
+<div id="ml-alert" class="alert alert-danger d-flex align-items-center d-none" role="alert">
+</div>
+
+<br />
+
+<div id="cmd-window" class="cmd-window">
+	<div>
+		<span id="cmd-span"></span><br>
+		<span class="cmd-cursor"></span>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+
+	var buttonPing = document.getElementById('btn-ping');
+
+	function ping() {
+		//alert('Hello, World!');
+
+		document.getElementById('cmd-span').innerHTML = '';
+
+		document.getElementById('ml-alert').classList.add('d-none');
+
+		document.querySelector('.ml-spinner').style.display = 'flex';
+
+		let retVal = getValues();
+
+		if (retVal == -1) {
+			document.querySelector('.ml-spinner').style.display = 'none';
+
+			const alert = document.getElementById('ml-alert');
+
+			alert.classList.remove('d-none');
+
+			alert.innerHTML = 'INSERT A VALID IP-ADDRESS';
+
+			window.scrollTo({
+				top: 0,
+				behavior: 'smooth'
+			});
+
+			return;
+		}
+
+		let url = '/Home/AJAX/PingIP';
+		let data = retVal;
+		let serverData = {};
+
+		fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		})
+			.then(response => response.text())
+			.then(text => {
+				serverData = text;
+				console.log(serverData);
+
+				document.getElementById('cmd-span').innerHTML = text;
+
+				document.querySelector('.ml-spinner').style.display = 'none';
+			})
+			.catch((error) => {
+
+				document.querySelector('.ml-spinner').style.display = 'none';
+
+				const alert = document.getElementById('ml-alert');
+
+				alert.innerHTML = 'SERVER-ERROR';
+
+				alert.classList.add('d-none');
+
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth'
+				});
+
+				console.error('Error:', error);
+			});
+
+
+	}
+
+	function getValues() {
+
+		const input = document.getElementById('input-ip');
+
+		return input.value;
+	}
+
+	buttonPing.addEventListener('click', ping);
+
+
+
+</script>
+
+
+@* <div class="list-group" style="">
+    @Html.ActionLink(" Modules", "Index", "Module", null, new { @class = "list-group-item list-group-item-action bi-play" })
+    @Html.ActionLink(" About", "About", "Home", null, new { @class = "list-group-item list-group-item-action bi-play" })
+</div> *@

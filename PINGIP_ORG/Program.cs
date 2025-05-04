@@ -6,8 +6,8 @@ using Serilog;
 //for linux
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
-WebRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG/wwwroot",
-ContentRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG"
+    WebRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG/wwwroot",
+    ContentRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG"
 });
 //for linux
 

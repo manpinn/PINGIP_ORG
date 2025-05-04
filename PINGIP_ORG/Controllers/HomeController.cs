@@ -47,7 +47,10 @@ namespace PINGIP_ORG.Controllers
             return Content(result, "text/plain");
         }
 
-
+        public IActionResult About()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

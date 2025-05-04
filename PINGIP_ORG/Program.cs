@@ -1,7 +1,11 @@
+using PINGIP_ORG.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddSingleton<GlobalIPDictionaryService>();
 
 var app = builder.Build();
 

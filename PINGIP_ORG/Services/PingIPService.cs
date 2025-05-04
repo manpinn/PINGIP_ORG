@@ -1,13 +1,36 @@
 ﻿using System.Net.NetworkInformation;
 using System.Text;
-using Microsoft.Extensions.Options;
+using PINGIP_ORG.Common;
 
 namespace PINGIP_ORG.Services
 {
     public class PingIPService
     {
-        public string PingIP(string ipAddress)
+        private readonly GlobalIPDictionaryService _globalIPDictionary;
+
+        public PingIPService(GlobalIPDictionaryService globalIPDictionary)
         {
+            _globalIPDictionary = globalIPDictionary;
+        }
+
+        public string PingIP(string ipAddress, string remoteIpAddress)
+        {
+            if (_globalIPDictionary.TryGet(remoteIpAddress, out DateTime lastPing))
+            {
+                if ((DateTime.Now - lastPing).TotalSeconds < Globals.minPingTimeSpan.TotalSeconds)
+                {
+                    return $"Ping from your IP-address is too frequent. Please wait {(int)((Globals.minPingTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
+                }
+                else
+                {
+                    _globalIPDictionary.AddOrUpdate(remoteIpAddress, DateTime.Now);
+                }
+            }
+            else
+            {
+                _globalIPDictionary.AddOrUpdate(remoteIpAddress, DateTime.Now);
+            }
+
             int pingCount = 4;            // Default number of pings
             int timeout = 1000;           // Timeout in milliseconds
             int sent = 0, received = 0, lost = 0;
@@ -43,7 +66,7 @@ namespace PINGIP_ORG.Services
 
                         string replyOptionsTtl = null;
 
-                        if(reply.Options != null) replyOptionsTtl = reply.Options.Ttl.ToString();
+                        if (reply.Options != null) replyOptionsTtl = reply.Options.Ttl.ToString();
 
                         result.Append($"Reply from {reply.Address}: bytes={replyBufferLength} time={time}ms TTL={replyOptionsTtl}").Append("<br>");
                     }

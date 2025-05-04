@@ -83,7 +83,12 @@ namespace PINGIP_ORG.Services
                 catch (Exception ex)
                 {
                     lost++;
-                    result.Append($"Ping failed: {ex.Message}").Append("<br>");
+
+                    string message = ex.Message;
+
+                    if (ex.InnerException != null) message += "; " + ex.InnerException.Message;
+
+                    result.Append($"Ping failed: {message}").Append("<br>");
                 }
 
                 Thread.Sleep(1000); // Wait 1 second between pings
@@ -96,9 +101,13 @@ namespace PINGIP_ORG.Services
             {
                 result.Append("Approximate round trip times in milli-seconds:").Append("<br>");
                 result.Append($"    Minimum = {minTime}ms, Maximum = {maxTime}ms, Average = {totalTime / received}ms").Append("<br>");
-            }
 
-            _logger.LogInformation($"Pinged {ipAddress} from {remoteIpAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms, AvgTime={totalTime / received}ms");
+                _logger.LogInformation($"Pinged {ipAddress} from {remoteIpAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms, AvgTime={totalTime / received}ms");
+            }
+            else
+            {
+                _logger.LogInformation($"Pinged {ipAddress} from {remoteIpAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms");
+            }
 
             return result.ToString();
         }

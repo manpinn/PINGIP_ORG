@@ -65,3 +65,33 @@ body {
         background-color: transparent;
     }
 }
+
+/* CMD Header */
+.cmd-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Title line in grey */
+.cmd-title {
+    color: #808080; /* Grey color */
+    font-weight: bold;
+}
+
+/* Copy button with grey background */
+.cmd-copy {
+    background-color: #808080; /* Grey background */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-family: 'Courier New', Courier, monospace;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+    .cmd-copy:hover {
+        background-color: #666666; /* Darker grey on hover */
+    }

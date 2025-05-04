@@ -2,19 +2,19 @@
 	ViewData["Title"] = "Home Page";
 }
 
-<h1 class="display-4 text-center border-bottom">PING IP-Addressses</h1>
+<h1 class="display-4 text-center border-bottom">PING IP-Addresses</h1>
 
 <p>Ping your desired IP-Address and get stats.</p>
 
 <div class="input-group mb-3">
 	<div class="input-group-prepend">
-		<span class="input-group-text" id="basic-addon1">IPV4/IPV6-Address</span>
+		<span class="input-group-text" id="basic-addon1">IPV4 / IPV6-Address</span>
 	</div>
 	<input id="input-ip" type="text" class="form-control" placeholder="Type in the Address here" aria-label="IPV4/IPV6-Address" aria-describedby="basic-addon1">
 </div>
 
 <div class="d-grid gap-2 d-md-flex">
-	<button id="btn-ping" class="btn btn-primary" type="button" style="width: 158px;">PING</button>
+	<button id="btn-ping" class="btn btn-primary" type="button" style="width: 166px;">PING</button>
 </div>
 
 <div class="ml-spinner" style="display: none; align-items: center; margin-top:10px; margin-bottom:10px;">
@@ -28,10 +28,70 @@
 
 
 <div id="cmd-window" class="cmd-window">
+	<div class="cmd-header">
+		<span class="cmd-title">PING RESULTS:</span>
+		<button class="cmd-copy" onclick="copyToClipboard()">Copy</button>
+	</div>
 	<div>
 		<span id="cmd-span"></span><br>
 		<span class="cmd-cursor"></span>
 	</div>
+</div>
+<br />
+<div style="max-width: 800px;">
+  <h2>🔍 Understanding Ping Results</h2>
+
+  <p><strong>Ping</strong> is a network utility used to test the reachability of a host and measure the round-trip time of messages sent from the origin to the destination.</p>
+
+  <h3>📄 Example Output</h3>
+  <pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px;">
+Pinged 8.8.8.8 with 32 bytes of data:
+Reply from 8.8.8.8: bytes=32 time=4ms TTL=117
+Reply from 8.8.8.8: bytes=32 time=4ms TTL=117
+Reply from 8.8.8.8: bytes=32 time=4ms TTL=117
+Reply from 8.8.8.8: bytes=32 time=4ms TTL=117
+
+Ping statistics for 8.8.8.8:
+	Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+	Approximate round trip times in milli-seconds:
+		Minimum = 4ms, Maximum = 4ms, Average = 4ms
+  </pre>
+
+  <h3>📌 Explanation of Parameters</h3>
+  <ul>
+	<li><strong>Reply from</strong>: The IP address that responded to the ping.</li>
+	<li><strong>bytes=32</strong>: Size of each packet sent (in bytes). Default is 32 bytes.</li>
+	<li><strong>time=4ms</strong>: Time taken for the packet to go to the host and come back (round-trip time).</li>
+	<li><strong>TTL (Time To Live)</strong>: Limits the number of network hops a packet can take. It prevents infinite loops.</li>
+  </ul>
+
+  <h3>📊 Summary Section</h3>
+  <ul>
+	<li><strong>Sent/Received/Lost</strong>: Shows network reliability.</li>
+	<li><strong>Loss Percentage</strong>: Packet loss indicates network issues.</li>
+	<li><strong>Round Trip Times</strong>: Helps determine network speed and stability (Min/Max/Avg).</li>
+  </ul>
+
+  <h3>⏱️ What is Round-Trip Time (RTT)?</h3>
+		<p>
+			<strong> Round-trip time (RTT)</strong> refers to the time it takes for a packet of data to travel from your device to the target device (like a server) and then back again. RTT is often used to measure network latency.
+		</p>
+		<p>
+			RTT is typically measured in milliseconds (ms). Here's how it works:
+		</p>
+		<ul>
+			<li><strong>Ping:</strong> When you send a "ping" to a device, it sends back a response.</li>
+			<li><strong>Round-Trip:</strong> The time between sending the ping and receiving the response is the RTT.</li>
+		</ul>
+		<h4>RTT Breakdown:</h4>
+		<ul>
+			<li><strong>📉 Minimum RTT:</strong> The fastest time it took for the packet to round trip.</li>
+			<li><strong>⏳ Maximum RTT:</strong> The longest time it took for the packet to round trip.</li>
+			<li><strong>📊 Average RTT:</strong> The average time of multiple ping requests.</li>
+		</ul>
+		<p>
+			<strong>Why is RTT important?</strong> A lower RTT indicates a faster connection with less latency, while a higher RTT suggests slower network performance.
+		</p>
 </div>
 
 
@@ -136,7 +196,25 @@
 
 	buttonPing.addEventListener('click', ping);
 
+	function copyToClipboard() {
+	// Get the content from the cmd-span element
+	const text = document.getElementById('cmd-span').innerText;
 
+	// Create a temporary text area to copy the text
+	const tempTextArea = document.createElement('textarea');
+	tempTextArea.value = text;
+	document.body.appendChild(tempTextArea);
+
+	// Select the text in the text area
+	tempTextArea.select();
+	tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+
+	// Execute the copy command
+	document.execCommand('copy');
+
+	// Remove the temporary text area
+	document.body.removeChild(tempTextArea);
+}
 
 </script>
 

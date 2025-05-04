@@ -2,6 +2,6 @@
 {
     public static class Globals
     {
-        public static readonly TimeSpan minPingTimeSpan = TimeSpan.FromSeconds(60);
+        public static readonly TimeSpan minPingTimeSpan = TimeSpan.FromSeconds(10);
     }
 }

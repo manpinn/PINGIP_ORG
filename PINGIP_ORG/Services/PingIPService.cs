@@ -8,16 +8,20 @@ namespace PINGIP_ORG.Services
     {
         private readonly GlobalIPDictionaryService _globalIPDictionary;
 
-        public PingIPService(GlobalIPDictionaryService globalIPDictionary)
+        private readonly ILogger<PingIPService> _logger;
+
+        public PingIPService(GlobalIPDictionaryService globalIPDictionary, ILogger<PingIPService> logger)
         {
             _globalIPDictionary = globalIPDictionary;
+
+            _logger = logger;
         }
 
         public string PingIP(string ipAddress, string remoteIpAddress)
         {
             if (_globalIPDictionary.TryGet(remoteIpAddress, out DateTime lastPing))
             {
-                if ((DateTime.Now - lastPing).TotalSeconds < Globals.minPingTimeSpan.TotalSeconds)
+                if (DateTime.Now - lastPing < Globals.minPingTimeSpan)
                 {
                     return $"Ping from your IP-address is too frequent. Please wait {(int)((Globals.minPingTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
                 }
@@ -93,6 +97,8 @@ namespace PINGIP_ORG.Services
                 result.Append("Approximate round trip times in milli-seconds:").Append("<br>");
                 result.Append($"    Minimum = {minTime}ms, Maximum = {maxTime}ms, Average = {totalTime / received}ms").Append("<br>");
             }
+
+            _logger.LogInformation($"Pinged {ipAddress} from {remoteIpAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms, AvgTime={totalTime / received}ms");
 
             return result.ToString();
         }

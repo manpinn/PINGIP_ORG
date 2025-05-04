@@ -11,11 +11,18 @@ namespace PINGIP_ORG.Controllers
 
         private readonly GlobalIPDictionaryService _globalIPDictionary;
 
-        public HomeController(ILogger<HomeController> logger, GlobalIPDictionaryService globalIPDictionary)
+        private readonly PingIPService _pingIPService;
+
+        public HomeController(
+            ILogger<HomeController> logger, 
+            GlobalIPDictionaryService globalIPDictionary,
+            PingIPService pingIPService)
         {
             _logger = logger;
 
             _globalIPDictionary = globalIPDictionary;
+
+            _pingIPService = pingIPService;
         }
 
         public IActionResult Index()
@@ -34,9 +41,7 @@ namespace PINGIP_ORG.Controllers
                 return Content("Invalid Request", "text/plain");
             }
 
-            PingIPService pingIPService = new PingIPService(_globalIPDictionary);
-
-            string result = pingIPService.PingIP(ipAdress, remoteIpAddress);
+            string result = _pingIPService.PingIP(ipAdress, remoteIpAddress);
 
             return Content(result, "text/plain");
         }

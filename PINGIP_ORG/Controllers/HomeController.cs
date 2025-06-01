@@ -32,7 +32,7 @@ namespace PINGIP_ORG.Controllers
 
         [HttpPost]
         [Route("/Home/AJAX/PingIP")]
-        public ActionResult AJAX_PingIP([FromBody] string ipAdress)
+        public async Task<IActionResult> AJAX_PingIP([FromBody] string ipAdress)
         {
             string remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
                          ?? HttpContext.Connection.RemoteIpAddress?.ToString();
@@ -42,7 +42,7 @@ namespace PINGIP_ORG.Controllers
                 return Content("Invalid Request", "text/plain");
             }
 
-            string result = _pingIPService.PingIP(ipAdress, remoteIpAddress);
+            string result = await _pingIPService.PingIP(ipAdress, remoteIpAddress);
 
             return Content(result, "text/plain");
         }

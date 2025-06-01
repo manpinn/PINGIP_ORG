@@ -17,7 +17,7 @@ namespace PINGIP_ORG.Services
             _logger = logger;
         }
 
-        public string PingIP(string ipAddress, string remoteIpAddress)
+        public async Task<string> PingIP(string ipAddress, string remoteIpAddress)
         {
             if (_globalIPDictionary.TryGet(remoteIpAddress, out DateTime lastPing))
             {
@@ -53,7 +53,7 @@ namespace PINGIP_ORG.Services
             {
                 try
                 {
-                    PingReply reply = pingSender.Send(ipAddress, timeout, buffer);
+                    PingReply reply = await pingSender.SendPingAsync(ipAddress, timeout, buffer);
                     sent++;
 
                     if (reply != null && reply.Status == IPStatus.Success)

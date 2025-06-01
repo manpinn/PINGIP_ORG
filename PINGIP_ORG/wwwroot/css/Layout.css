@@ -29,7 +29,6 @@ body, html {
 
 .container-ml {
     flex: 1; /* Take remaining space */
-    height: 100vh;
     padding-top: 60px;
 }
 
@@ -87,7 +86,6 @@ body, html {
     color: white;
     padding-top: 60px;
     opacity: 1;
-    height: 100vh;
     transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 

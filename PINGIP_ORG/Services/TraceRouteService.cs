@@ -8,9 +8,9 @@ namespace PINGIP_ORG.Services
     {
         private readonly GlobalTraceRouteIPDictionaryService _globalIPDictionary;
 
-        private readonly ILogger<PingIPService> _logger;
+        private readonly ILogger<TraceRouteService> _logger;
 
-        public TraceRouteService(GlobalTraceRouteIPDictionaryService globalIPDictionary, ILogger<PingIPService> logger)
+        public TraceRouteService(GlobalTraceRouteIPDictionaryService globalIPDictionary, ILogger<TraceRouteService> logger)
         {
             _globalIPDictionary = globalIPDictionary;
 

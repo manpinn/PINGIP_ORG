@@ -1,4 +1,5 @@
 ﻿using PINGIP_ORG.Common;
+using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Text;
 
@@ -55,12 +56,16 @@ namespace PINGIP_ORG.Services
 
                     if (reply != null && (reply.Status == IPStatus.TtlExpired || reply.Status == IPStatus.Success))
                     {
-                        result.Append($"{reply.Address} - {reply.RoundtripTime} ms").Append("<br>");
+                        result.Append($"{ttl} {reply.Address} - {reply.RoundtripTime} ms").Append("<br>");
 
                         if (reply.Status == IPStatus.Success)
-                            break; // Ziel erreicht
+                        {
+                            result.Append("<br>").Append("Trace complete.");
+
+                            break;
+                        }
                     }
-                    else if(reply != null)
+                    else if (reply != null)
                     {
                         result.Append($"* ({reply.Status})").Append("<br>");
                     }
@@ -78,7 +83,7 @@ namespace PINGIP_ORG.Services
             }
 
             _logger.LogInformation($"TraceRoute IP: TraceRoute {ipAddress} from {remoteIpAddress}");
-            
+
             return result.ToString();
         }
     }

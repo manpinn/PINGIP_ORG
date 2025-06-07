@@ -102,11 +102,11 @@ namespace PINGIP_ORG.Services
                 result.Append("Approximate round trip times in milli-seconds:").Append("<br>");
                 result.Append($"    Minimum = {minTime}ms, Maximum = {maxTime}ms, Average = {totalTime / received}ms").Append("<br>");
 
-                _logger.LogInformation($"Pinged {ipAddress} from {remoteIpAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms, AvgTime={totalTime / received}ms");
+                _logger.LogInformation($"Ping IP: Pinged {ipAddress} from {remoteIpAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms, AvgTime={totalTime / received}ms");
             }
             else
             {
-                _logger.LogInformation($"Pinged {ipAddress} from {remoteIpAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms");
+                _logger.LogInformation($"Ping IP: Pinged {ipAddress} from {remoteIpAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms");
             }
 
             return result.ToString();

@@ -47,7 +47,7 @@ namespace PINGIP_ORG.Services
 
                     result.Append($"Connection to {ipAddress}:{port} was successful.").Append("<br>");
 
-                    _logger.LogInformation($"Connected to {ipAddress}:{port} succesfully from {remoteIpAddress}.");
+                    _logger.LogInformation($"Port Check: Connected to {ipAddress}:{port} succesfully from {remoteIpAddress}.");
                 }
                 catch (SocketException ex)
                 {

@@ -23,7 +23,6 @@ body, html {
 /* Content styling */
 .content {
     padding-top: 60px; /* Add padding to ensure content starts below the navbar */
-    height: 2000px; /* Just to make the page scrollable for demonstration */
 }
 
 
@@ -87,7 +86,6 @@ body, html {
     padding-top: 60px;
     opacity: 1;
     transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
-    height: 100vh;
 }
 
 .ml-sidebar-content {

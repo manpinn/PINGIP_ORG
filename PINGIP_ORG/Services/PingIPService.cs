@@ -6,11 +6,11 @@ namespace PINGIP_ORG.Services
 {
     public class PingIPService
     {
-        private readonly GlobalIPDictionaryService _globalIPDictionary;
+        private readonly GlobalPingIPDictionaryService _globalIPDictionary;
 
         private readonly ILogger<PingIPService> _logger;
 
-        public PingIPService(GlobalIPDictionaryService globalIPDictionary, ILogger<PingIPService> logger)
+        public PingIPService(GlobalPingIPDictionaryService globalIPDictionary, ILogger<PingIPService> logger)
         {
             _globalIPDictionary = globalIPDictionary;
 

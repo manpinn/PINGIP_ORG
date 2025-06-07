@@ -1,0 +1,254 @@
+﻿@{
+	ViewData["Title"] = "Check Ports on IP-Adresses - Online-Tool";
+}
+
+<h1 class="display-4 text-center border-bottom">Check Ports of IP-Addresses</h1>
+<br />
+<p>Check, if Ports are open, on your desired IP-Address with the Online-Tool on this Website.</p>
+
+<div class="input-group mb-3">
+	<div class="input-group-prepend">
+		<span class="input-group-text" id="basic-addon1">IPV4 / IPV6-Address</span>
+	</div>
+	<input id="input-ip" type="text" class="form-control" placeholder="Type in the IP-Address here" aria-label="IPV4/IPV6-Address" aria-describedby="basic-addon1">
+</div>
+<div class="input-group mb-3">
+	<div class="input-group-prepend">
+		<span class="input-group-text" id="basic-addon1">Port</span>
+	</div>
+	<input id="input-port" type="text" class="form-control" placeholder="Type in the Port here" aria-label="Port" aria-describedby="basic-addon1">
+</div>
+
+<div class="d-grid gap-2 d-md-flex">
+	<button id="btn-ping" class="btn btn-primary" type="button" style="width: 166px;">Connect</button>
+</div>
+
+<div class="ml-spinner" style="display: none; align-items: center; margin-top:20px;">
+	<div class="spinner-grow text-secondary" role="status"></div>
+	<div style="margin-left: 10px;">Connecting ...</div>
+</div>
+<br />
+<div id="ml-alert" class="alert alert-danger d-flex align-items-center d-none" role="alert">
+</div>
+
+
+
+<div id="cmd-window" class="cmd-window">
+	<div class="cmd-header">
+		<span class="cmd-title">CONNECTION RESULTS:</span>
+		<button class="cmd-copy" onclick="copyToClipboard()">Copy</button>
+	</div>
+	<div>
+		<span id="cmd-span"></span><br>
+		<span class="cmd-cursor"></span>
+	</div>
+</div>
+<br />
+<div>
+	<h2>🔍 Understanding Ping Results</h2>
+
+	<p><strong>Ping</strong> is a network utility used to test the reachability of a host and measure the round-trip time of messages sent from the origin to the destination.</p>
+
+	<h3>📄 Example Output</h3>
+	<div style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; margin-bottom:1rem;">
+		Pinged 8.8.8.8 with 32 bytes of data:<br />
+		Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
+		Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
+		Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
+		Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
+		<br />
+		Ping statistics for 8.8.8.8:<br />
+		Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),<br />
+		Approximate round trip times in milli-seconds:<br />
+		Minimum = 4ms, Maximum = 4ms, Average = 4ms
+	</div>
+
+	<h3>📌 Explanation of Parameters</h3>
+	<ul>
+		<li><strong>Reply from</strong>: The IP address that responded to the ping.</li>
+		<li><strong>bytes=32</strong>: Size of each packet sent (in bytes). Default is 32 bytes.</li>
+		<li><strong>time=4ms</strong>: Time taken for the packet to go to the host and come back (round-trip time).</li>
+		<li><strong>TTL (Time To Live)</strong>: Limits the number of network hops a packet can take. It prevents infinite loops.</li>
+	</ul>
+
+	<h3>📊 Summary Section</h3>
+	<ul>
+		<li><strong>Sent/Received/Lost</strong>: Shows network reliability.</li>
+		<li><strong>Loss Percentage</strong>: Packet loss indicates network issues.</li>
+		<li><strong>Round Trip Times</strong>: Helps determine network speed and stability (Min/Max/Avg).</li>
+	</ul>
+
+	<h3>⏱️ What is Round-Trip Time (RTT)?</h3>
+	<p>
+		<strong> Round-trip time (RTT)</strong> refers to the time it takes for a packet of data to travel from your device to the target device (like a server) and then back again. RTT is often used to measure network latency.
+	</p>
+	<p>
+		RTT is typically measured in milliseconds (ms). Here's how it works:
+	</p>
+	<ul>
+		<li><strong>Ping:</strong> When you send a "ping" to a device, it sends back a response.</li>
+		<li><strong>Round-Trip:</strong> The time between sending the ping and receiving the response is the RTT.</li>
+	</ul>
+	<h4>RTT Breakdown:</h4>
+	<ul>
+		<li><strong>📉 Minimum RTT:</strong> The fastest time it took for the packet to round trip.</li>
+		<li><strong>⏳ Maximum RTT:</strong> The longest time it took for the packet to round trip.</li>
+		<li><strong>📊 Average RTT:</strong> The average time of multiple ping requests.</li>
+	</ul>
+	<p>
+		<strong>Why is RTT important?</strong> A lower RTT indicates a faster connection with less latency, while a higher RTT suggests slower network performance.
+	</p>
+</div>
+
+
+<script type="text/javascript">
+
+		var buttonPing = document.getElementById('btn-ping');
+
+		function ping() {
+			//alert('Hello, World!');
+
+			document.getElementById('cmd-span').innerHTML = '';
+
+			document.getElementById('ml-alert').classList.add('d-none');
+
+			document.querySelector('.ml-spinner').style.display = 'flex';
+
+			let retVal = getValues();
+
+			if (retVal == -1 || retVal == -2) {
+				document.querySelector('.ml-spinner').style.display = 'none';
+
+				const alert = document.getElementById('ml-alert');
+
+				alert.classList.remove('d-none');
+
+				switch (retVal) {
+					case -1:
+						alert.innerHTML = 'INSERT A VALID IPV4/IPV6-ADDRESS';
+						break;
+					case -2:
+						alert.innerHTML = 'INSERT A VALID PORT (1-65535)';
+						break;
+                }
+
+				window.scrollTo({
+					top: 0,
+					behavior: 'smooth'
+				});
+
+				return;
+			}
+
+			let url = '/Home/AJAX/PortCheck';
+			let data = retVal;
+			let serverData = {};
+
+			fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(data)
+			})
+				.then(response => response.text())
+				.then(text => {
+					serverData = text;
+					console.log(serverData);
+
+					document.getElementById('cmd-span').innerHTML = text;
+
+					document.querySelector('.ml-spinner').style.display = 'none';
+				})
+				.catch((error) => {
+
+					document.querySelector('.ml-spinner').style.display = 'none';
+
+					const alert = document.getElementById('ml-alert');
+
+					alert.innerHTML = 'SERVER-ERROR';
+
+					alert.classList.add('d-none');
+
+					window.scrollTo({
+						top: 0,
+						behavior: 'smooth'
+					});
+
+					console.error('Error:', error);
+				});
+
+
+		}
+
+		function isValidIPv4(ip) {
+			const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+			return regex.test(ip);
+		}
+
+		function isValidIPv6(ip) {
+			const regex = /([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4})|::|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:([0-9a-fA-F]{1,4})|([0-9a-fA-F]{1,4}:){1,5}:([0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}:([0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}:([0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}:([0-9a-fA-F]{1,4}){1,5}|([0-9a-fA-F]{1,4}:){1,1}:([0-9a-fA-F]{1,4}){1,6}$/i;
+			return regex.test(ip);
+		}
+
+		function isValidPort(port) {
+			const num = Number(port);
+			return Number.isInteger(num) && num >= 1 && num <= 65535;
+		}
+
+
+		function getValues() {
+
+			const inputIp = document.getElementById('input-ip');
+
+			const inputPort = document.getElementById('input-port');
+
+			const isValidIPv4State = isValidIPv4(inputIp.value);
+
+			const isValidIPv6State = isValidIPv6(inputIp.value);
+
+			const isValidPortState = isValidPort(inputPort.value);
+
+			if((isValidIPv4State|| isValidIPv6State) && isValidPortState)
+			{
+				return { ipAdress: inputIp.value, port: Number(inputPort.value) };
+			}
+			else if((isValidIPv4State || isValidIPv6State) == false)
+			{
+				return -1;
+			}
+			else if(isValidPortState == false)
+			{
+				return -2;
+			}
+		}
+
+		buttonPing.addEventListener('click', ping);
+
+		function copyToClipboard() {
+		// Get the content from the cmd-span element
+		const text = document.getElementById('cmd-span').innerText;
+
+		// Create a temporary text area to copy the text
+		const tempTextArea = document.createElement('textarea');
+		tempTextArea.value = text;
+		document.body.appendChild(tempTextArea);
+
+		// Select the text in the text area
+		tempTextArea.select();
+		tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+
+		// Execute the copy command
+		document.execCommand('copy');
+
+		// Remove the temporary text area
+		document.body.removeChild(tempTextArea);
+	}
+
+</script>
+
+
+@* <div class="list-group" style="">
+    @Html.ActionLink(" Modules", "Index", "Module", null, new { @class = "list-group-item list-group-item-action bi-play" })
+    @Html.ActionLink(" About", "About", "Home", null, new { @class = "list-group-item list-group-item-action bi-play" })
+</div> *@

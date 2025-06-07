@@ -9,12 +9,12 @@ namespace PINGIP_ORG.Services
 {
     public class IPCleanupService : BackgroundService
     {
-        private readonly GlobalIPDictionaryService _globalIPDictionary;
+        private readonly GlobalPingIPDictionaryService _globalIPDictionary;
         private readonly TimeSpan _cleanupInterval = TimeSpan.FromMinutes(5);
         private readonly TimeSpan _cleanupTimeSpanDate = TimeSpan.FromMinutes(3);
         private readonly ILogger<IPCleanupService> _logger;
 
-        public IPCleanupService(GlobalIPDictionaryService globalIPDictionary, ILogger<IPCleanupService> logger)
+        public IPCleanupService(GlobalPingIPDictionaryService globalIPDictionary, ILogger<IPCleanupService> logger)
         {
             _globalIPDictionary = globalIPDictionary;
             _logger = logger;

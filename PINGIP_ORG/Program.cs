@@ -1,22 +1,24 @@
 using PINGIP_ORG.Services;
 using Serilog;
 
-//var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-//for linux
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    WebRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG/wwwroot",
-    ContentRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG"
-});
-//for linux
+////for linux
+//var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+//{
+//    WebRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG/wwwroot",
+//    ContentRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG"
+//});
+////for linux
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<GlobalIPDictionaryService>();
+builder.Services.AddSingleton<GlobalPingIPDictionaryService>();
+builder.Services.AddSingleton<GlobalPortCheckIPDictionaryService>();
 builder.Services.AddHostedService<IPCleanupService>();
 builder.Services.AddTransient<PingIPService>();
+builder.Services.AddTransient<PortCheckService>();
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
@@ -26,17 +28,17 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-//for linux
-builder.Configuration
-    .SetBasePath("/opt/MEICOTI_LABS/PINGIP_ORG")
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+////for linux
+//builder.Configuration
+//    .SetBasePath("/opt/MEICOTI_LABS/PINGIP_ORG")
+//    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-builder.Configuration
-    .SetBasePath("/opt/MEICOTI_LABS/PINGIP_ORG")
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+//builder.Configuration
+//    .SetBasePath("/opt/MEICOTI_LABS/PINGIP_ORG")
+//    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
-builder.WebHost.UseUrls("http://0.0.0.0:5065");
-//for linux
+//builder.WebHost.UseUrls("http://0.0.0.0:5065");
+////for linux
 
 
 var app = builder.Build();

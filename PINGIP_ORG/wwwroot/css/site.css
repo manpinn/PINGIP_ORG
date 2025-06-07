@@ -56,7 +56,7 @@ body {
     height: 20px;
     background-color: white;
     animation: blink 1s step-start infinite;
-    margin-left: 5px;
+    margin-left: 0px;
 }
 
 /* Blinking effect for cursor */

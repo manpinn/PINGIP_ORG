@@ -9,13 +9,13 @@ namespace PINGIP_ORG.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private readonly GlobalIPDictionaryService _globalIPDictionary;
+        private readonly GlobalPingIPDictionaryService _globalIPDictionary;
 
         private readonly PingIPService _pingIPService;
 
         public HomeController(
             ILogger<HomeController> logger, 
-            GlobalIPDictionaryService globalIPDictionary,
+            GlobalPingIPDictionaryService globalIPDictionary,
             PingIPService pingIPService)
         {
             _logger = logger;
@@ -32,7 +32,7 @@ namespace PINGIP_ORG.Controllers
 
         [HttpPost]
         [Route("/Home/AJAX/PingIP")]
-        public async Task<IActionResult> AJAX_PingIP([FromBody] string ipAdress)
+        public async Task<IActionResult> AJAXPingIP([FromBody] string ipAdress)
         {
             string remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
                          ?? HttpContext.Connection.RemoteIpAddress?.ToString();

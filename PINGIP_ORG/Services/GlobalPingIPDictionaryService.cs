@@ -2,7 +2,7 @@
 
 namespace PINGIP_ORG.Services
 {
-    public class GlobalIPDictionaryService
+    public class GlobalPingIPDictionaryService
     {
         private readonly ConcurrentDictionary<string, DateTime> _data = new();
 

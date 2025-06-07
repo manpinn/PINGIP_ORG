@@ -1,119 +1,120 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - PINGIP.ORG</title>
-	<script type="importmap"></script>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	@* <link rel="stylesheet" href="~/PINGIP_ORG.styles.css" asp-append-version="true" /> *@
-	<link rel="stylesheet" href="~/css/Layout.css" asp-append-version="true" />
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-923EKBSGT4"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PINGIP.ORG</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/PINGIP_ORG.styles.css" asp-append-version="true" /> *@
+    <link rel="stylesheet" href="~/css/Layout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-923EKBSGT4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-		gtag('config', 'G-923EKBSGT4');
-	</script>
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7108910261273960"
-     crossorigin="anonymous"></script>
+        gtag('config', 'G-923EKBSGT4');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7108910261273960"
+            crossorigin="anonymous"></script>
 </head>
 <body>
-	<div class="navbar-ml ml-navbar-grid-container bg-primary">
-		<div class="navbar-ml-left">
-			<i id="navbar-ml-menu" class="bi-list navbar-ml-menu"></i>
-		</div>
-		<div class="navbar-ml-center navbar-ml-title">PINGIP.org</div>
-		@* <div class="navbar-ml-right">
+    <div class="navbar-ml ml-navbar-grid-container bg-primary">
+        <div class="navbar-ml-left">
+            <i id="navbar-ml-menu" class="bi-list navbar-ml-menu"></i>
+        </div>
+        <div class="navbar-ml-center navbar-ml-title">PINGIP.org</div>
+        @* <div class="navbar-ml-right">
             <form class="d-flex" role="search">
                 <input class="form-control me-2 navbar-ml-right-search" type="search" placeholder="" aria-label="Search">
                 <button class="btn btn-outline-light" type="submit">Search</button>
             </form>
         </div> *@
-	</div>
+    </div>
 
-	<div class="ml-sidebar-content">
-		<div id="ml-sidebar" class="ml-sidebar">
-			<!-- content of the sidebar -->
-			<p style="margin-top:5px">@Html.ActionLink("Ping IP", "Index", "Home", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
-			<p>@Html.ActionLink("Port Check", "Index", "PortCheck", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
-			<p>@Html.ActionLink("About", "About", "Home", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p> 
-		</div>
-		<div class="container-ml" style="margin-left:10px; margin-right:10px;">
-			<main role="main" class="pb-3">
-				@RenderBody()
-			</main>
-			<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-				<div class="col-md-4 d-flex align-items-center">
-					<span class="mb-3 mb-md-0 text-body-secondary">© @DateTime.Now.Year Mario Kozlovac</span>
-				</div>
-			</footer>
-		</div>
-	</div>
+    <div class="ml-sidebar-content">
+        <div id="ml-sidebar" class="ml-sidebar">
+            <!-- content of the sidebar -->
+            <p style="margin-top:5px">@Html.ActionLink("Ping IP", "Index", "Home", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
+            <p>@Html.ActionLink("Port Check", "Index", "PortCheck", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
+            <p>@Html.ActionLink("About", "About", "Home", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
+            <p>@Html.ActionLink("TraceRoute", "Index", "TraceRoute", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
+        </div>
+        <div class="container-ml" style="margin-left:10px; margin-right:10px;">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                <div class="col-md-4 d-flex align-items-center">
+                    <span class="mb-3 mb-md-0 text-body-secondary">© @DateTime.Now.Year Mario Kozlovac</span>
+                </div>
+            </footer>
+        </div>
+    </div>
 
-	<script>
-		const mediaQuery = window.matchMedia('(max-width: 1000px)');
+    <script>
+        const mediaQuery = window.matchMedia('(max-width: 1000px)');
 
-		const sidebar = document.querySelector('.ml-sidebar');
+        const sidebar = document.querySelector('.ml-sidebar');
 
-		function showSidebar() {
-			sidebar.style.width = '250px'; // or any desired width
-			sidebar.style.opacity = '1';
-			sidebar.classList.add('active');
-		}
+        function showSidebar() {
+            sidebar.style.width = '250px'; // or any desired width
+            sidebar.style.opacity = '1';
+            sidebar.classList.add('active');
+        }
 
-		function hideSidebar() {
-			sidebar.style.width = '0px';
-			sidebar.style.opacity = '0';
-			sidebar.classList.remove('active');
-		}
+        function hideSidebar() {
+            sidebar.style.width = '0px';
+            sidebar.style.opacity = '0';
+            sidebar.classList.remove('active');
+        }
 
-		function handleMediaQueryChange(event) {
-			if (event.matches) {
-				// Media query matches (screen width is 1000px or less)
-				sidebar.style.width = '0px';
-				sidebar.style.opacity = '0';
-				sidebar.style.transition = 'width 0.3s ease-in-out, opacity 0.3s ease-in-out';
-				sidebar.classList.remove('active');
-			} else {
-				// Media query does not match (screen width is greater than 1000px)
-				sidebar.style.width = '';
-				sidebar.style.opacity = '';
-				sidebar.style.transition = '';
-				sidebar.classList.add('active');
-			}
-		}
+        function handleMediaQueryChange(event) {
+            if (event.matches) {
+                // Media query matches (screen width is 1000px or less)
+                sidebar.style.width = '0px';
+                sidebar.style.opacity = '0';
+                sidebar.style.transition = 'width 0.3s ease-in-out, opacity 0.3s ease-in-out';
+                sidebar.classList.remove('active');
+            } else {
+                // Media query does not match (screen width is greater than 1000px)
+                sidebar.style.width = '';
+                sidebar.style.opacity = '';
+                sidebar.style.transition = '';
+                sidebar.classList.add('active');
+            }
+        }
 
-		mediaQuery.addListener(handleMediaQueryChange);
+        mediaQuery.addListener(handleMediaQueryChange);
 
-		handleMediaQueryChange(mediaQuery);
+        handleMediaQueryChange(mediaQuery);
 
-		document.getElementById('navbar-ml-menu').addEventListener('click', function () {
-			if (sidebar.classList.contains('active')) {
-				hideSidebar();
-			} else {
-				showSidebar();
-			}
-		});
+        document.getElementById('navbar-ml-menu').addEventListener('click', function () {
+            if (sidebar.classList.contains('active')) {
+                hideSidebar();
+            } else {
+                showSidebar();
+            }
+        });
 
-		document.getElementsByClassName('container-ml')[0].addEventListener('click', function () {
-			if (window.innerWidth < 1000 && sidebar.classList.contains('active')) {
-				hideSidebar();
-			}
-		});
-
-
-
+        document.getElementsByClassName('container-ml')[0].addEventListener('click', function () {
+            if (window.innerWidth < 1000 && sidebar.classList.contains('active')) {
+                hideSidebar();
+            }
+        });
 
 
 
-	</script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/site.js" asp-append-version="true"></script>
-	@await RenderSectionAsync("Scripts", required: false)
+
+
+
+    </script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

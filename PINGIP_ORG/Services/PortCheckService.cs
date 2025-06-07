@@ -10,9 +10,9 @@ namespace PINGIP_ORG.Services
     {
         private readonly GlobalPortCheckIPDictionaryService _globalIPDictionary;
 
-        private readonly ILogger<PingIPService> _logger;
+        private readonly ILogger<PortCheckService> _logger;
 
-        public PortCheckService(GlobalPortCheckIPDictionaryService globalIPDictionary, ILogger<PingIPService> logger)
+        public PortCheckService(GlobalPortCheckIPDictionaryService globalIPDictionary, ILogger<PortCheckService> logger)
         {
             _globalIPDictionary = globalIPDictionary;
 
@@ -23,9 +23,9 @@ namespace PINGIP_ORG.Services
         {
             if (_globalIPDictionary.TryGet(remoteIpAddress, out DateTime lastPing))
             {
-                if (DateTime.Now - lastPing < Globals.minPingTimeSpan)
+                if (DateTime.Now - lastPing < Globals.minPortCheckTimeSpan)
                 {
-                    return $"Requests from your IP-address is are too frequent. Please wait {(int)((Globals.minPingTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
+                    return $"Requests from your IP-address is are too frequent. Please wait {(int)((Globals.minPortCheckTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
                 }
                 else
                 {

@@ -1,10 +1,10 @@
 ﻿@{
-    ViewData["Title"] = "Ping IP-Addresses - Online-Tool";
+    ViewData["Title"] = "TraceRoute Ip-Adresses - Online-Tool";
 }
 
-<h1 class="display-4 text-center border-bottom">PING IP-Addresses - Online Tool</h1>
+<h1 class="display-4 text-center border-bottom">TraceRoute Ip-Adresses - Online-Tool</h1>
 <br />
-<p>Ping a specific IP-Address and get connection statistics with the Online-Tool on this Website.</p>
+<p>Trace Route on specific IP-Address and get connection statistics with the Online-Tool on this Website.</p>
 
 <div class="input-group mb-3">
     <div class="input-group-prepend">
@@ -14,7 +14,7 @@
 </div>
 
 <div class="d-grid gap-2 d-md-flex">
-    <button id="btn-ping" class="btn btn-primary" type="button" style="width: 166px;">PING</button>
+    <button id="btn-ping" class="btn btn-primary" type="button" style="width: 166px;">TRACEROUTE</button>
 </div>
 
 <div class="ml-spinner" style="display: none; align-items: center; margin-top:20px;">
@@ -29,7 +29,7 @@
 
 <div id="cmd-window" class="cmd-window">
     <div class="cmd-header">
-        <span class="cmd-title">PING RESULTS:</span>
+        <span class="cmd-title">TRACEROUTE RESULTS:</span>
         <button class="cmd-copy" onclick="copyToClipboard()">Copy</button>
     </div>
     <div>
@@ -41,7 +41,7 @@
 <div>
     <h2>Description</h2>
     <p>
-        The online tool allows you ping specific IP addresses to check their reachability and measure the round-trip time of messages sent to the target device. This is useful for troubleshooting network issues, ensuring services are running, or verifying firewall configurations.
+        The online traceroute tool helps you trace the network path that packets take from our server to a specified IP address or domain. It reveals each "hop" along the way, typically a router or gateway, and shows how long each hop takes to respond.
     </p>
     <p>
         The online tool establishes a server-sided connection between our server and the specified IP address.
@@ -55,63 +55,52 @@
 
     <h2>Other Tools</h2>
     <div class="list-group" style="">
+        @Html.ActionLink(" Ping IP - Ping a specific IP-Address", "Index", "Home", null, new { @class = "list-group-item list-group-item-action bi-play" })
         @Html.ActionLink(" Port Check - Check if ports are open on a specific IP-Address", "Index", "PortCheck", null, new { @class = "list-group-item list-group-item-action bi-play" })
-        @Html.ActionLink(" Trace Route - Trace Route on a specific IP-Address", "Index", "TraceRoute", null, new { @class = "list-group-item list-group-item-action bi-play" })
     </div>
     <br />
 
-    <h2>🔍 Understanding Ping Results</h2>
+    <h2>🛰️ Traceroute Tool</h2>
 
-    <p><strong>Ping</strong> is a network utility used to test the reachability of a host and measure the round-trip time of messages sent from the origin to the destination.</p>
+    <p>
+        This tool is especially useful for diagnosing network routing issues, identifying bottlenecks, or understanding how data travels across the internet to the target system.
+    </p>
 
     <h3>📄 Example Output</h3>
     <div style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; margin-bottom:1rem;">
-        Pinged 8.8.8.8 with 32 bytes of data:<br />
-        Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
-        Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
-        Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
-        Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
+        Tracing route to 8.8.8.8 over a maximum of 30 hops:<br />
         <br />
-        Ping statistics for 8.8.8.8:<br />
-        Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),<br />
-        Approximate round trip times in milli-seconds:<br />
-        Minimum = 4ms, Maximum = 4ms, Average = 4ms
+        1    <1 ms    <1 ms    <1 ms  192.168.1.1<br />
+    2     5 ms     4 ms     5 ms  10.0.0.1<br />
+    3    12 ms    11 ms    13 ms  core-router.provider.net [203.0.113.1]<br />
+    4    18 ms    18 ms    17 ms  8.8.8.8<br />
+    <br />
+    Trace complete.
     </div>
 
     <h3>📌 Explanation of Parameters</h3>
     <ul>
-        <li><strong>Reply from</strong>: The IP address that responded to the ping.</li>
-        <li><strong>bytes=32</strong>: Size of each packet sent (in bytes). Default is 32 bytes.</li>
-        <li><strong>time=4ms</strong>: Time taken for the packet to go to the host and come back (round-trip time).</li>
-        <li><strong>TTL (Time To Live)</strong>: Limits the number of network hops a packet can take. It prevents infinite loops.</li>
+        <li><strong>Hop Number:</strong> Shows the sequence of routers the packet travels through.</li>
+        <li><strong>Round-Trip Times:</strong> Shows how long (in milliseconds) each router takes to respond.</li>
+        <li><strong>IP / Hostname:</strong> Displays the IP address or domain name of the responding router.</li>
     </ul>
 
-    <h3>📊 Summary Section</h3>
+    <h3>🔍 What Traceroute Reveals</h3>
     <ul>
-        <li><strong>Sent/Received/Lost</strong>: Shows network reliability.</li>
-        <li><strong>Loss Percentage</strong>: Packet loss indicates network issues.</li>
-        <li><strong>Round Trip Times</strong>: Helps determine network speed and stability (Min/Max/Avg).</li>
+        <li><strong>Network Latency:</strong> Helps you spot where delays or timeouts happen in the path.</li>
+        <li><strong>Routing Path:</strong> Useful for understanding which regions or networks your traffic passes through.</li>
+        <li><strong>Failures or Timeouts:</strong> Asterisks (*) indicate a hop didn't respond, possibly due to firewall rules or timeouts.</li>
     </ul>
 
-    <h3>⏱️ What is Round-Trip Time (RTT)?</h3>
-    <p>
-        <strong> Round-trip time (RTT)</strong> refers to the time it takes for a packet of data to travel from your device to the target device (like a server) and then back again. RTT is often used to measure network latency.
-    </p>
-    <p>
-        RTT is typically measured in milliseconds (ms). Here's how it works:
-    </p>
+    <h4>🛠️ When to Use Traceroute</h4>
     <ul>
-        <li><strong>Ping:</strong> When you send a "ping" to a device, it sends back a response.</li>
-        <li><strong>Round-Trip:</strong> The time between sending the ping and receiving the response is the RTT.</li>
+        <li>Troubleshooting slow connections</li>
+        <li>Identifying where a connection is being blocked or delayed</li>
+        <li>Understanding how your traffic is routed through the internet</li>
     </ul>
-    <h4>RTT Breakdown:</h4>
-    <ul>
-        <li><strong>📉 Minimum RTT:</strong> The fastest time it took for the packet to round trip.</li>
-        <li><strong>⏳ Maximum RTT:</strong> The longest time it took for the packet to round trip.</li>
-        <li><strong>📊 Average RTT:</strong> The average time of multiple ping requests.</li>
-    </ul>
+
     <p>
-        <strong>Why is RTT important?</strong> A lower RTT indicates a faster connection with less latency, while a higher RTT suggests slower network performance.
+        <strong>Note:</strong> Traceroute results may vary depending on firewall settings, network policies, or ISP routing.
     </p>
 </div>
 
@@ -148,7 +137,7 @@
                 return;
             }
 
-            let url = '/Home/AJAX/PingIP';
+            let url = '/Home/AJAX/TraceRoute';
             let data = retVal;
             let serverData = {};
 

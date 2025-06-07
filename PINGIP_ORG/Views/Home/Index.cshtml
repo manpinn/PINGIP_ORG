@@ -4,7 +4,7 @@
 
 <h1 class="display-4 text-center border-bottom">PING IP-Addresses</h1>
 <br />
-<p>Ping your desired IP-Address and get connection statistics with the Online-Tool on this Website.</p>
+<p>Ping a specific IP-Address and get connection statistics with the Online-Tool on this Website.</p>
 
 <div class="input-group mb-3">
 	<div class="input-group-prepend">
@@ -39,6 +39,26 @@
 </div>
 <br />
 <div>
+	<h2>Description</h2>
+	<p>
+        The online tool allows you ping specific IP addresses to check their reachability and measure the round-trip time of messages sent to the target device. This is useful for troubleshooting network issues, ensuring services are running, or verifying firewall configurations.
+	</p>
+	<p>
+		The online tool establishes a server-sided connection between our server and the specified IP address.
+	</p>
+	<p>
+		<strong>Our Server's current IP-Adress is 212.227.72.245</strong>
+	</p>
+	<p>
+		The Server is located in Germany.
+	</p>
+
+	<h2>Other Tools</h2>
+	<div class="list-group" style="">
+		@Html.ActionLink(" Port Check - Check if ports are open on a specific IP-Address", "Index", "PortCheck", null, new { @class = "list-group-item list-group-item-action bi-play" })
+	</div>
+	<br />
+
   <h2>🔍 Understanding Ping Results</h2>
 
   <p><strong>Ping</strong> is a network utility used to test the reachability of a host and measure the round-trip time of messages sent from the origin to the destination.</p>

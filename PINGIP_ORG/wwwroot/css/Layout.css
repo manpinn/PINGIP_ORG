@@ -87,6 +87,7 @@ body, html {
     padding-top: 60px;
     opacity: 1;
     transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    height: 100vh;
 }
 
 .ml-sidebar-content {

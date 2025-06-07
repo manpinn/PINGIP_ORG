@@ -44,7 +44,7 @@ namespace PINGIP_ORG.Services
 
             StringBuilder result = new StringBuilder();
 
-            result.Append($"Tracing route to {ipAddress} over a maximum of {maxHops} hops:").Append("<br>");
+            result.Append($"Tracing route to {ipAddress} over a maximum of {maxHops} hops:").Append("<br>").Append("<br>");
 
             for (int ttl = 1; ttl <= maxHops; ttl++)
             {

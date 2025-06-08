@@ -82,7 +82,7 @@ namespace PINGIP_ORG.Services
                 Thread.Sleep(1000); // Wait 1 second between pings
             }
 
-            _logger.LogInformation($"TraceRoute IP: TraceRoute {ipAddress} from {remoteIpAddress}");
+            _logger.LogInformation($"TraceRoute IP: TraceRoute {ipAddress}");
 
             return result.ToString();
         }

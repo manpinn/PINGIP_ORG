@@ -1,0 +1,186 @@
+﻿@{
+    ViewData["Title"] = "My IP-Address - Online-Tool";
+}
+
+<h1 class="display-4 text-center border-bottom">My IP-Address - Online Tool</h1>
+<br />
+<p>Get your current IP-Address with the Online-Tool on this Website.</p>
+
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Your current IPV4-Address</span>
+    </div>
+    <input id="input-ip4" type="text" class="form-control" aria-label="IPV4-Address" aria-describedby="basic-addon1" readonly value="@if (ViewBag.IPv4 != null){
+    @ViewBag.IPv4
+        }
+">
+    <button class="btn btn-outline-secondary" type="button" id="button-copy1" onclick="copyToClipboardBtn1()">Copy</button>
+</div>
+
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">Your current IPV6-Address</span>
+    </div>
+    <input id="input-ip6" type="text" class="form-control" aria-label="IPV6-Address" aria-describedby="basic-addon1" readonly value="@if (ViewBag.IPv6 != null){
+    @ViewBag.IPv6
+        }
+">
+    <button class="btn btn-outline-secondary" type="button" id="button-copy2" onclick="copyToClipboardBtn2()">Copy</button>
+</div>
+
+<br />
+<div>
+    <h2>Description</h2>
+    <p>
+        The online tool shows your current IP addresses in the internet.
+    </p>
+
+
+    <h2>Other Tools</h2>
+    <div class="list-group" style="">
+        @Html.ActionLink(" Ping IP - Ping a specific IP-Address", "Index", "Home", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
+        @Html.ActionLink(" Port Check - Check if ports are open on a specific IP-Address", "Index", "PortCheck", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
+        @Html.ActionLink(" Trace Route - Trace Route on a specific IP-Address", "Index", "TraceRoute", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
+    </div>
+    <br />
+
+    <h2>🧭 What Are IPv4 and IPv6 Addresses?</h2>
+    <p>
+        IP addresses are unique identifiers assigned to every device connected to the internet.
+        They work like a home address — helping data find its way to and from your device.
+    </p>
+
+    <h3>📌 IPv4 (Internet Protocol version 4)</h3>
+    <ul>
+        <li><strong>Format:</strong> 4 numbers separated by dots (e.g., <code>192.168.1.1</code>)</li>
+        <li><strong>Each number:</strong> Ranges from 0 to 255</li>
+        <li><strong>Total combinations:</strong> About 4.3 billion addresses</li>
+        <li><strong>Commonly used:</strong> Still the most widespread IP version today</li>
+    </ul>
+    <p><strong>Example:</strong> <code>8.8.8.8</code> (Google DNS)</p>
+
+    <h3>🌐 IPv6 (Internet Protocol version 6)</h3>
+    <ul>
+        <li><strong>Format:</strong> 8 groups of hexadecimal numbers separated by colons (e.g., <code>2001:0db8:85a3:0000:0000:8a2e:0370:7334</code>)</li>
+        <li><strong>Designed for the future:</strong> Supports 340 undecillion unique addresses</li>
+        <li><strong>Security & performance:</strong> Built-in encryption and efficient routing</li>
+    </ul>
+    <p><strong>Example:</strong> <code>2001:4860:4860::8888</code> (Google DNS in IPv6)</p>
+
+    <h3>🔄 Why Are There Two Versions?</h3>
+    <p>
+        IPv4 addresses are running out due to the huge number of devices online today.
+        IPv6 was introduced to provide a nearly unlimited number of addresses and better performance.
+    </p>
+
+    <h3>🔍 Key Differences</h3>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>IPv4</th>
+                <th>IPv6</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Address Format</td>
+                <td>Decimal (e.g., 192.168.0.1)</td>
+                <td>Hexadecimal (e.g., 2001:db8::1)</td>
+            </tr>
+            <tr>
+                <td>Length</td>
+                <td>32-bit</td>
+                <td>128-bit</td>
+            </tr>
+            <tr>
+                <td>Total Addresses</td>
+                <td>~4.3 billion</td>
+                <td>~340 undecillion</td>
+            </tr>
+            <tr>
+                <td>Launched</td>
+                <td>1981</td>
+                <td>1998</td>
+            </tr>
+            <tr>
+                <td>Adoption</td>
+                <td>Still dominant</td>
+                <td>Growing steadily</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<script type="text/javascript">
+
+        function copyToClipboard() {
+        // Get the content from the cmd-span element
+        const text = document.getElementById('cmd-span').innerText;
+
+        // Create a temporary text area to copy the text
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        document.body.appendChild(tempTextArea);
+
+        // Select the text in the text area
+        tempTextArea.select();
+        tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+
+        // Execute the copy command
+        document.execCommand('copy');
+
+        // Remove the temporary text area
+        document.body.removeChild(tempTextArea);
+    }
+
+            function copyToClipboardBtn1() {
+        // Get the content from the cmd-span element
+        const text = document.getElementById('input-ip4').value;
+
+        // Create a temporary text area to copy the text
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        document.body.appendChild(tempTextArea);
+
+        // Select the text in the text area
+        tempTextArea.select();
+        tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+
+        // Execute the copy command
+        document.execCommand('copy');
+
+        // Remove the temporary text area
+        document.body.removeChild(tempTextArea);
+    }
+
+
+                function copyToClipboardBtn2() {
+        // Get the content from the cmd-span element
+        const text = document.getElementById('input-ip6').value;
+
+        // Create a temporary text area to copy the text
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        document.body.appendChild(tempTextArea);
+
+        // Select the text in the text area
+        tempTextArea.select();
+        tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+
+        // Execute the copy command
+        document.execCommand('copy');
+
+        // Remove the temporary text area
+        document.body.removeChild(tempTextArea);
+    }
+    
+
+</script>
+
+
+@* <div class="list-group" style="">
+    @Html.ActionLink(" Modules", "Index", "Module", null, new { @class = "list-group-item list-group-item-action bi-play" })
+    @Html.ActionLink(" About", "About", "Home", null, new { @class = "list-group-item list-group-item-action bi-play" })
+</div> *@

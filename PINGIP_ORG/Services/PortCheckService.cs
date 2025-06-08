@@ -1,5 +1,7 @@
 ﻿using PINGIP_ORG.Common;
+using PINGIP_ORG.Enums;
 using System;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
@@ -19,8 +21,10 @@ namespace PINGIP_ORG.Services
             _logger = logger;
         }
 
-        public async Task<string> PortCheck(string ipAddress, string remoteIpAddress, int port)
+        public async Task<string> PortCheck(string ipAddress, string remoteIpAddress, int port, IpAddressType ipType)
         {
+            string ipAddressToPrint = ipType == IpAddressType.IPv6 ? $"[{ipAddress}]" : ipAddress;
+
             if (_globalIPDictionary.TryGet(remoteIpAddress, out DateTime lastPing))
             {
                 if (DateTime.Now - lastPing < Globals.minPortCheckTimeSpan)
@@ -45,18 +49,18 @@ namespace PINGIP_ORG.Services
                 {
                     await tcpClient.ConnectAsync(ipAddress, port).WaitAsync(TimeSpan.FromSeconds(5));
 
-                    result.Append($"Connection to {ipAddress}:{port} was successful.").Append("<br>");
+                    result.Append($"Connection to {ipAddressToPrint}:{port} was successful.").Append("<br>");
 
-                    _logger.LogInformation($"Port Check: Connected to {ipAddress}:{port} succesfully.");
+                    _logger.LogInformation($"Port Check: Connected to {ipAddressToPrint}:{port} succesfully.");
                 }
                 catch (SocketException ex)
                 {
-                    result.Append($"Failed to connect to {ipAddress}:{port} !")
+                    result.Append($"Failed to connect to {ipAddressToPrint}:{port} !")
                         .Append("<br>").Append(ex.Message);
                 }
                 catch (Exception ex)
                 {
-                    result.Append($"Failed to connect to {ipAddress}:{port} !")
+                    result.Append($"Failed to connect to {ipAddressToPrint}:{port} !")
                         .Append("<br>").Append(ex.Message);
                 }
             }

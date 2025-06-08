@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PINGIP_ORG.Enums;
 using PINGIP_ORG.Services;
 
 namespace PINGIP_ORG.Controllers
@@ -41,7 +42,7 @@ namespace PINGIP_ORG.Controllers
                 return Content("Invalid Request", "text/plain");
             }
 
-            string result = await _portCheckService.PortCheck(request.IpAdress, remoteIpAddress, request.Port);
+            string result = await _portCheckService.PortCheck(request.IpAdress, remoteIpAddress, request.Port, request.IpType);
 
             return Content(result, "text/plain");
         }
@@ -50,6 +51,7 @@ namespace PINGIP_ORG.Controllers
         {
             public string IpAdress { get; set; }
             public int Port { get; set; }
+            public IpAddressType IpType { get; set; } // 1 for IPv4, 2 for IPv6
         }
     }
 }

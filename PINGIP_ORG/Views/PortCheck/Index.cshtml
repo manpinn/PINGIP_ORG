@@ -234,7 +234,18 @@
 
             if((isValidIPv4State|| isValidIPv6State) && isValidPortState)
             {
-                return { ipAdress: inputIp.value, port: Number(inputPort.value) };
+                var ipType = 0;
+
+                if(isValidIPv4State == true)
+                {
+                    ipType = 1;
+                }
+                else if(isValidIPv6State == true)
+                {
+                    ipType = 2;
+                }
+
+                return { IpAdress: inputIp.value, Port: Number(inputPort.value), IpType: ipType };
             }
             else if((isValidIPv4State || isValidIPv6State) == false)
             {

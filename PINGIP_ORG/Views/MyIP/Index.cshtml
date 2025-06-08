@@ -6,15 +6,17 @@
 <br />
 <p>Get your current IP-Address with the Online-Tool on this Website.</p>
 
+<div class="ml-spinner" style="display: none; align-items: center; margin-top:20px;">
+    <div class="spinner-grow text-secondary" role="status"></div>
+    <div style="margin-left: 10px;">Detecting IP-Adresses ...</div>
+</div>
+
 <div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">Your current IPV4-Address</span>
     </div>
    
 <div class="input-group mb-3">  
-    <input id="input-ip4" type="text" class="form-control" aria-label="IPV4-Address" aria-describedby="basic-addon1" readonly value="@if (ViewBag.IPv4 != null){
-    @ViewBag.IPv4
-        }
-">
+    <input id="input-ip4" type="text" class="form-control" aria-label="IPV4-Address" aria-describedby="basic-addon1" readonly value="Detecting ...">
     <button class="btn btn-outline-secondary" type="button" id="button-copy1" onclick="copyToClipboardBtn1()">Copy</button>
 </div>
 
@@ -22,10 +24,7 @@
         <span class="input-group-text" id="basic-addon1">Your current IPV6-Address</span>
     </div>
 <div class="input-group mb-3">
-    <input id="input-ip6" type="text" class="form-control" aria-label="IPV6-Address" aria-describedby="basic-addon1" readonly value="@if (ViewBag.IPv6 != null){
-    @ViewBag.IPv6
-        }
-">
+    <input id="input-ip6" type="text" class="form-control" aria-label="IPV6-Address" aria-describedby="basic-addon1" readonly value="Detecting ...">
     <button class="btn btn-outline-secondary" type="button" id="button-copy2" onclick="copyToClipboardBtn2()">Copy</button>
 </div>
 
@@ -116,6 +115,47 @@
 
 <script type="text/javascript">
 
+        function detectIpAddresses() {
+            //alert('Hello, World!');
+
+            document.querySelector('.ml-spinner').style.display = 'flex';
+
+            let url = 'https://ipv4.pingip.org/MyIP/AJAX/IP';
+
+            fetch(url, {
+                method: 'GET'
+            })
+                .then(response => response.text())
+                .then(text => {
+
+                    document.getElementById('input-ip4').value = text;
+                })
+                .catch((error) => {
+
+                    console.error('Error:', error);
+                });
+
+            document.querySelector('.ml-spinner').style.display = 'flex';
+
+            url = 'https://ipv6.pingip.org/MyIP/AJAX/IP';
+ 
+
+            fetch(url, {
+                method: 'GET'
+            })
+                .then(response => response.text())
+                .then(text => {
+
+                    document.getElementById('input-ip6').value = text;
+                })
+                .catch((error) => {
+
+                    console.error('Error:', error);
+                });
+
+            document.querySelector('.ml-spinner').style.display = 'none';
+        }
+
         function copyToClipboard() {
         // Get the content from the cmd-span element
         const text = document.getElementById('cmd-span').innerText;
@@ -177,6 +217,9 @@
         document.body.removeChild(tempTextArea);
     }
     
+    window.onload = function () {
+        detectIpAddresses();
+    };
 
 </script>
 

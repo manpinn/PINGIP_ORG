@@ -42,6 +42,15 @@ builder.Configuration
 builder.WebHost.UseUrls("http://0.0.0.0:5065");
 //for linux
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowPingIpFrontend", policy =>
+    {
+        policy.WithOrigins("https://pingip.org")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -55,6 +64,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseCors("AllowPingIpFrontend");
 
 app.UseAuthorization();
 

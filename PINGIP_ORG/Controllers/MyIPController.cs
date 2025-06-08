@@ -50,8 +50,8 @@ namespace PINGIP_ORG.Controllers
                     break; // Stop once both are found
             }
 
-            ViewBag.IPv4 = ipv4?.ToString();
-            ViewBag.IPv6 = ipv6?.ToString();
+            ViewBag.IPv4 = ipv4?.ToString() == "127.0.0.1" ? "Not available" : (ipv4?.ToString() ?? "Not available");
+            ViewBag.IPv6 = ipv6?.ToString() == "::1" ? "Not available" : (ipv6?.ToString() ?? "Not available");
 
             return View();
         }

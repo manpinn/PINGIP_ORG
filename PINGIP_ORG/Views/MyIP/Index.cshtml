@@ -6,10 +6,11 @@
 <br />
 <p>Get your current IP-Address with the Online-Tool on this Website.</p>
 
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
+<div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">Your current IPV4-Address</span>
     </div>
+   
+<div class="input-group mb-3">  
     <input id="input-ip4" type="text" class="form-control" aria-label="IPV4-Address" aria-describedby="basic-addon1" readonly value="@if (ViewBag.IPv4 != null){
     @ViewBag.IPv4
         }
@@ -17,10 +18,10 @@
     <button class="btn btn-outline-secondary" type="button" id="button-copy1" onclick="copyToClipboardBtn1()">Copy</button>
 </div>
 
-<div class="input-group mb-3">
-    <div class="input-group-prepend">
+<div class="input-group-prepend">
         <span class="input-group-text" id="basic-addon1">Your current IPV6-Address</span>
     </div>
+<div class="input-group mb-3">
     <input id="input-ip6" type="text" class="form-control" aria-label="IPV6-Address" aria-describedby="basic-addon1" readonly value="@if (ViewBag.IPv6 != null){
     @ViewBag.IPv6
         }

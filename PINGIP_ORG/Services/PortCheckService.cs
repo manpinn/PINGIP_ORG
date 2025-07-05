@@ -29,7 +29,7 @@ namespace PINGIP_ORG.Services
             {
                 if (DateTime.Now - lastPing < Globals.minPortCheckTimeSpan)
                 {
-                    return $"Requests from your IP-address is are too frequent. Please wait {(int)((Globals.minPortCheckTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
+                    return $"Requests from your IP-address are too frequent. Please wait {(int)((Globals.minPortCheckTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
                 }
                 else
                 {

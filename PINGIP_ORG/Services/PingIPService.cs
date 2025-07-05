@@ -43,17 +43,20 @@ namespace PINGIP_ORG.Services
             long totalTime = 0;
 
             byte[] buffer = new byte[32]; // Default ping buffer
+
             Ping pingSender = new Ping();
+
+            PingOptions options = new PingOptions() { DontFragment = true };
 
             StringBuilder result = new StringBuilder();
 
-            result.Append($"Pinged {ipAddress} with {buffer.Length} bytes of data:").Append("<br>");
+            result.Append($"Pinged {ipAddress} with {buffer.Length} bytes of data:").Append("<br>").Append("<br>");
 
             for (int i = 0; i < pingCount; i++)
             {
                 try
                 {
-                    PingReply reply = await pingSender.SendPingAsync(ipAddress, timeout, buffer);
+                    PingReply reply = await pingSender.SendPingAsync(ipAddress, timeout, buffer, options);
                     sent++;
 
                     if (reply != null && reply.Status == IPStatus.Success)
@@ -77,7 +80,7 @@ namespace PINGIP_ORG.Services
                     else
                     {
                         lost++;
-                        result.Append($"Request timed out.").Append("<br>");
+                        result.Append("<br>").Append($"Request timed out.").Append("<br>");
                     }
                 }
                 catch (Exception ex)
@@ -88,13 +91,13 @@ namespace PINGIP_ORG.Services
 
                     if (ex.InnerException != null) message += "; " + ex.InnerException.Message;
 
-                    result.Append($"Ping failed: {message}").Append("<br>");
+                    result.Append("<br>").Append($"Ping failed: {message}").Append("<br>");
                 }
 
                 Thread.Sleep(1000); // Wait 1 second between pings
             }
 
-            result.Append($"Ping statistics for {ipAddress}:").Append("<br>");
+            result.Append("<br>").Append($"Ping statistics for {ipAddress}:").Append("<br>").Append("<br>");
             result.Append($"    Packets: Sent = {sent}, Received = {received}, Lost = {lost} ({((double)(lost * 100)) / (double)sent}% loss),").Append("<br>");
 
             if (received > 0)

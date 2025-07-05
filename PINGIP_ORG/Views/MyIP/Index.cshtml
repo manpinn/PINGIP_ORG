@@ -8,11 +8,11 @@
 
 <div class="ml-spinner" style="display: none; align-items: center; margin-top:20px; margin-bottom: 20px;">
     <div class="spinner-grow text-secondary" role="status"></div>
-    <div style="margin-left: 10px;">Detecting IP-Adresses ...</div>
+    <div style="margin-left: 10px;">Detecting IP-Addresses ...</div>
 </div>
 
 <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">Your current IPV4-Address</span>
+        <span class="input-group-text bg-danger-subtle" id="basic-addon1">Your current IPv4-Address</span>
     </div>
    
 <div class="input-group mb-3">  
@@ -21,7 +21,7 @@
 </div>
 
 <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">Your current IPV6-Address</span>
+        <span class="input-group-text bg-danger-subtle" id="basic-addon1">Your current IPv6-Address</span>
     </div>
 <div class="input-group mb-3">
     <input id="input-ip6" type="text" class="form-control" aria-label="IPV6-Address" aria-describedby="basic-addon1" readonly value="Detecting ...">
@@ -128,11 +128,18 @@
                 .then(response => response.text())
                 .then(text => {
 
+                    if (!text || text.trim() === '')
+                    {
+                        text = 'NOT AVAILABLE';
+                    }
+
                     document.getElementById('input-ip4').value = text;
                 })
                 .catch((error) => {
 
                     console.error('Error:', error);
+
+                    document.getElementById('input-ip4').value = 'NOT AVAILABLE';
                 });
 
             document.querySelector('.ml-spinner').style.display = 'flex';
@@ -146,11 +153,18 @@
                 .then(response => response.text())
                 .then(text => {
 
+                    if (!text || text.trim() === '') 
+                    {
+                        text = 'NOT AVAILABLE';
+                    }
+
                     document.getElementById('input-ip6').value = text;
                 })
                 .catch((error) => {
 
                     console.error('Error:', error);
+
+                    document.getElementById('input-ip4').value = 'NOT AVAILABLE';
                 });
 
             document.querySelector('.ml-spinner').style.display = 'none';

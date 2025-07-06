@@ -23,9 +23,13 @@ builder.Services.AddTransient<PortCheckService>();
 builder.Services.AddTransient<TraceRouteService>();
 
 // Configure Serilog
+var appDir = AppDomain.CurrentDomain.BaseDirectory;
+var logPath = Path.Combine(appDir, "LOG", "log.txt");
+
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
-    .WriteTo.File("/opt/MEICOTI_LABS/PINGIP_ORG/LOG/log.txt", rollingInterval: RollingInterval.Day)
+    //.WriteTo.File("/opt/MEICOTI_LABS/PINGIP_ORG/LOG/log.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
     .CreateLogger();
 
 builder.Host.UseSerilog();

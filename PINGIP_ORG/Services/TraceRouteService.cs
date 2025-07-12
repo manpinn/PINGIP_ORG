@@ -44,6 +44,9 @@ namespace PINGIP_ORG.Services
 
             StringBuilder result = new StringBuilder();
 
+            result.Append($"Source: {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
+            result.Append($"Target: {ipAddress}").Append("\n").Append("\n");
+
             result.Append($"Tracing route to {ipAddress} over a maximum of {maxHops} hops:").Append("\n").Append("\n");
 
             result.Append($"0 {GlobalServerIPAddress.ServerIPAddress}").Append("\n");

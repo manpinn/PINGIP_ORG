@@ -1,4 +1,7 @@
-﻿@{
+﻿@using PINGIP_ORG.Common
+@using PINGIP_ORG.Services;
+
+@{
     ViewData["Title"] = "Ping IP-Addresses - Online-Tool";
 }
 
@@ -47,7 +50,7 @@
         The online tool establishes a server-sided connection between our server and the specified IP address.
     </p>
     <p>
-        <strong>Our Server's current IP-Address is 212.227.72.245</strong>
+        <strong>Our Server's current IP-Address is @GlobalServerIPAddress.ServerIPAddress</strong>
     </p>
     <p>
         The Server is located in Germany.

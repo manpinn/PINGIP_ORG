@@ -46,17 +46,25 @@ namespace PINGIP_ORG.Services
 
             result.Append($"Tracing route to {ipAddress} over a maximum of {maxHops} hops:").Append("<br>").Append("<br>");
 
+            result.Append($"0 {GlobalServerIPAddress.ServerIPAddress}").Append("<br>");
+
+            Stopwatch stopwatch = new Stopwatch();
+
             for (int ttl = 1; ttl <= maxHops; ttl++)
             {
                 try
                 {
                     var options = new PingOptions(ttl, true);
 
+                    stopwatch.Start();
+
                     PingReply reply = await pingSender.SendPingAsync(ipAddress, timeout, buffer, options);
+
+                    stopwatch.Stop();
 
                     if (reply != null && (reply.Status == IPStatus.TtlExpired || reply.Status == IPStatus.Success))
                     {
-                        result.Append($"{ttl} {reply.Address} - {reply.RoundtripTime} ms").Append("<br>");
+                        result.Append($"{ttl} {reply.Address} - {stopwatch.ElapsedMilliseconds} ms").Append("<br>");
 
                         if (reply.Status == IPStatus.Success)
                         {
@@ -69,6 +77,8 @@ namespace PINGIP_ORG.Services
                     {
                         result.Append($"* ({reply.Status})").Append("<br>");
                     }
+
+                    stopwatch.Reset();
                 }
                 catch (Exception ex)
                 {

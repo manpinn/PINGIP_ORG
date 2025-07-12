@@ -50,6 +50,9 @@ namespace PINGIP_ORG.Services
 
             StringBuilder result = new StringBuilder();
 
+            result.Append($"Source: {GlobalServerIPAddress.ServerIPAddress}").Append("<br>");
+            result.Append($"Target: {ipAddress}").Append("<br>").Append("<br>");
+
             result.Append($"Pinged {ipAddress} with {buffer.Length} bytes of data:").Append("<br>").Append("<br>");
 
             for (int i = 0; i < pingCount; i++)

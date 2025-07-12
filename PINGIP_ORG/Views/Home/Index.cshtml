@@ -36,7 +36,7 @@
         <button class="cmd-copy" onclick="copyToClipboard()">Copy</button>
     </div>
     <div>
-        <span id="cmd-span"></span><br>
+        <span id="cmd-span" class="cmd-span"></span><br>
         <span class="cmd-cursor"></span>
     </div>
 </div>
@@ -44,10 +44,10 @@
 <div>
     <h2>Description</h2>
     <p>
-        The online tool allows you ping specific IP addresses to check their reachability and measure the round-trip time of messages sent to the target device. This is useful for troubleshooting network issues, ensuring services are running, or verifying firewall configurations.
+        The online tool allows you ping specific IP-Addresses to check their reachability and measure the round-trip time of messages sent to the target device. This is useful for troubleshooting network issues, ensuring services are running, or verifying firewall configurations.
     </p>
     <p>
-        The online tool establishes a server-sided connection between our server and the specified IP address.
+        The online tool establishes a server-sided connection between our server and the specified IP-Address.
     </p>
     <p>
         <strong>Our Server's current IP-Address is @GlobalServerIPAddress.ServerIPAddress</strong>
@@ -84,7 +84,7 @@
 
     <h3>📌 Explanation of Parameters</h3>
     <ul>
-        <li><strong>Reply from</strong>: The IP address that responded to the ping.</li>
+        <li><strong>Reply from</strong>: The IP-Address that responded to the ping.</li>
         <li><strong>bytes=32</strong>: Size of each packet sent (in bytes). Default is 32 bytes.</li>
         <li><strong>time=4ms</strong>: Time taken for the packet to go to the host and come back (round-trip time).</li>
         <li><strong>TTL (Time To Live)</strong>: Limits the number of network hops a packet can take. It prevents infinite loops.</li>
@@ -168,9 +168,11 @@
                     serverData = text;
                     console.log(serverData);
 
-                    document.getElementById('cmd-span').innerHTML = text;
-
                     document.querySelector('.ml-spinner').style.display = 'none';
+
+                    index = 0;
+
+                    nextChar(text);
                 })
                 .catch((error) => {
 
@@ -221,25 +223,42 @@
 
         buttonPing.addEventListener('click', ping);
 
-        function copyToClipboard() {
-        // Get the content from the cmd-span element
-        const text = document.getElementById('cmd-span').innerText;
+        function copyToClipboard() 
+        {
+            // Get the content from the cmd-span element
+            const text = document.getElementById('cmd-span').innerText;
 
-        // Create a temporary text area to copy the text
-        const tempTextArea = document.createElement('textarea');
-        tempTextArea.value = text;
-        document.body.appendChild(tempTextArea);
+            // Create a temporary text area to copy the text
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = text;
+            document.body.appendChild(tempTextArea);
 
-        // Select the text in the text area
-        tempTextArea.select();
-        tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+            // Select the text in the text area
+            tempTextArea.select();
+            tempTextArea.setSelectionRange(0, 99999); // For mobile devices
 
-        // Execute the copy command
-        document.execCommand('copy');
+            // Execute the copy command
+            document.execCommand('copy');
 
-        // Remove the temporary text area
-        document.body.removeChild(tempTextArea);
-    }
+            // Remove the temporary text area
+            document.body.removeChild(tempTextArea);
+        }
+
+        let index = 0;
+
+        var cmdSpan = document.getElementById('cmd-span');
+
+        function nextChar(text) 
+        {
+            if (index < text.length) 
+            {
+                cmdSpan.innerHTML += text.charAt(index);
+
+                index++;
+
+                setTimeout(() => nextChar(text), 5); // Tippgeschwindigkeit in ms (anpassen)
+            }
+        }
 
 </script>
 

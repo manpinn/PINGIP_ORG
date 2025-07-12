@@ -29,7 +29,7 @@ namespace PINGIP_ORG.Services
             {
                 if (DateTime.Now - lastPing < Globals.minPortCheckTimeSpan)
                 {
-                    return $"Requests from your IP-address are too frequent. Please wait {(int)((Globals.minPortCheckTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
+                    return $"Requests from your IP-Address are too frequent. Please wait {(int)((Globals.minPortCheckTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
                 }
                 else
                 {
@@ -49,19 +49,19 @@ namespace PINGIP_ORG.Services
                 {
                     await tcpClient.ConnectAsync(ipAddress, port).WaitAsync(TimeSpan.FromSeconds(5));
 
-                    result.Append($"Connection to {ipAddressToPrint}:{port} was successful.").Append("<br>");
+                    result.Append($"Connection to {ipAddressToPrint}:{port} was successful.").Append("\n");
 
                     _logger.LogInformation($"Port Check: Connected to {ipAddressToPrint}:{port} succesfully.");
                 }
                 catch (SocketException ex)
                 {
                     result.Append($"Failed to connect to {ipAddressToPrint}:{port} !")
-                        .Append("<br>").Append(ex.Message);
+                        .Append("\n").Append(ex.Message);
                 }
                 catch (Exception ex)
                 {
                     result.Append($"Failed to connect to {ipAddressToPrint}:{port} !")
-                        .Append("<br>").Append(ex.Message);
+                        .Append("\n").Append(ex.Message);
                 }
             }
 

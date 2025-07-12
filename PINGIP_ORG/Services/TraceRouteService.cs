@@ -24,7 +24,7 @@ namespace PINGIP_ORG.Services
             {
                 if (DateTime.Now - lastPing < Globals.minTraceRouteTimeSpan)
                 {
-                    return $"TraceRoute from your IP-address is too frequent. Please wait {(int)((Globals.minTraceRouteTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
+                    return $"TraceRoute from your IP-Address is too frequent. Please wait {(int)((Globals.minTraceRouteTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
                 }
                 else
                 {
@@ -44,9 +44,9 @@ namespace PINGIP_ORG.Services
 
             StringBuilder result = new StringBuilder();
 
-            result.Append($"Tracing route to {ipAddress} over a maximum of {maxHops} hops:").Append("<br>").Append("<br>");
+            result.Append($"Tracing route to {ipAddress} over a maximum of {maxHops} hops:").Append("\n").Append("\n");
 
-            result.Append($"0 {GlobalServerIPAddress.ServerIPAddress}").Append("<br>");
+            result.Append($"0 {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
 
             Stopwatch stopwatch = new Stopwatch();
 
@@ -64,18 +64,18 @@ namespace PINGIP_ORG.Services
 
                     if (reply != null && (reply.Status == IPStatus.TtlExpired || reply.Status == IPStatus.Success))
                     {
-                        result.Append($"{ttl} {reply.Address} - {stopwatch.ElapsedMilliseconds} ms").Append("<br>");
+                        result.Append($"{ttl} {reply.Address} - {stopwatch.ElapsedMilliseconds} ms").Append("\n");
 
                         if (reply.Status == IPStatus.Success)
                         {
-                            result.Append("<br>").Append("Trace complete.");
+                            result.Append("\n").Append("Trace complete.");
 
                             break;
                         }
                     }
                     else if (reply != null)
                     {
-                        result.Append($"* ({reply.Status})").Append("<br>");
+                        result.Append($"* ({reply.Status})").Append("\n");
                     }
 
                     stopwatch.Reset();
@@ -86,7 +86,7 @@ namespace PINGIP_ORG.Services
 
                     if (ex.InnerException != null) message += "; " + ex.InnerException.Message;
 
-                    result.Append($"TraceRoute failed: {message}").Append("<br>");
+                    result.Append($"TraceRoute failed: {message}").Append("\n");
                 }
 
                 Thread.Sleep(1000); // Wait 1 second between pings

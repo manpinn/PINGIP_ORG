@@ -23,7 +23,7 @@ namespace PINGIP_ORG.Services
             {
                 if (DateTime.Now - lastPing < Globals.minPingTimeSpan)
                 {
-                    return $"Ping from your IP-address is too frequent. Please wait {(int)((Globals.minPingTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
+                    return $"Ping from your IP-Address is too frequent. Please wait {(int)((Globals.minPingTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
                 }
                 else
                 {
@@ -50,10 +50,10 @@ namespace PINGIP_ORG.Services
 
             StringBuilder result = new StringBuilder();
 
-            result.Append($"Source: {GlobalServerIPAddress.ServerIPAddress}").Append("<br>");
-            result.Append($"Target: {ipAddress}").Append("<br>").Append("<br>");
+            result.Append($"Source: {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
+            result.Append($"Target: {ipAddress}").Append("\n").Append("\n");
 
-            result.Append($"Pinged {ipAddress} with {buffer.Length} bytes of data:").Append("<br>").Append("<br>");
+            result.Append($"Pinged {ipAddress} with {buffer.Length} bytes of data:").Append("\n").Append("\n");
 
             for (int i = 0; i < pingCount; i++)
             {
@@ -78,12 +78,12 @@ namespace PINGIP_ORG.Services
 
                         if (reply.Options != null) replyOptionsTtl = reply.Options.Ttl.ToString();
 
-                        result.Append($"Reply from {reply.Address}: bytes={replyBufferLength} time={time}ms TTL={replyOptionsTtl}").Append("<br>");
+                        result.Append($"Reply from {reply.Address}: bytes={replyBufferLength} time={time}ms TTL={replyOptionsTtl}").Append("\n");
                     }
                     else
                     {
                         lost++;
-                        result.Append("<br>").Append($"Request timed out.").Append("<br>");
+                        result.Append("\n").Append($"Request timed out.").Append("\n");
                     }
                 }
                 catch (Exception ex)
@@ -94,19 +94,19 @@ namespace PINGIP_ORG.Services
 
                     if (ex.InnerException != null) message += "; " + ex.InnerException.Message;
 
-                    result.Append("<br>").Append($"Ping failed: {message}").Append("<br>");
+                    result.Append("\n").Append($"Ping failed: {message}").Append("\n");
                 }
 
                 Thread.Sleep(1000); // Wait 1 second between pings
             }
 
-            result.Append("<br>").Append($"Ping statistics for {ipAddress}:").Append("<br>").Append("<br>");
-            result.Append($"    Packets: Sent = {sent}, Received = {received}, Lost = {lost} ({((double)(lost * 100)) / (double)sent}% loss),").Append("<br>");
+            result.Append("\n").Append($"Ping statistics for {ipAddress}:").Append("\n").Append("\n");
+            result.Append($"Packets: Sent = {sent}, Received = {received}, Lost = {lost} ({((double)(lost * 100)) / (double)sent}% loss),").Append("\n");
 
             if (received > 0)
             {
-                result.Append("Approximate round trip times in milli-seconds:").Append("<br>");
-                result.Append($"    Minimum = {minTime}ms, Maximum = {maxTime}ms, Average = {totalTime / received}ms").Append("<br>");
+                result.Append("Approximate round trip times in milli-seconds:").Append("\n");
+                result.Append($"Minimum = {minTime}ms, Maximum = {maxTime}ms, Average = {totalTime / received}ms").Append("\n");
 
                 _logger.LogInformation($"Ping IP: Pinged {ipAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms, AvgTime={totalTime / received}ms");
             }

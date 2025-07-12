@@ -75,6 +75,10 @@ body {
     margin-bottom: 10px;
 }
 
+.cmd-span {
+    white-space: pre-wrap;
+}
+
 /* Title line in grey */
 .cmd-title {
     color: #808080; /* Grey color */

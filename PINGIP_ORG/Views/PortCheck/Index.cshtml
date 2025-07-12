@@ -134,7 +134,7 @@
         function ping() {
             //alert('Hello, World!');
 
-            document.getElementById('cmd-span').innerHTML = '';
+            cmdSpan.innerHTML = '';
 
             document.getElementById('ml-alert').classList.add('d-none');
 
@@ -185,6 +185,8 @@
                     document.querySelector('.ml-spinner').style.display = 'none';
 
                     index = 0;
+
+                    cmdSpan.innerHTML = '';
 
                     nextChar(text);
                 })

@@ -29,6 +29,7 @@ body, html {
 .container-ml {
     flex: 1; /* Take remaining space */
     padding-top: 60px;
+    transition: margin-left ease 0.3s;
 }
 
 .navbar-ml-left {
@@ -79,33 +80,23 @@ body, html {
 
 
 .ml-sidebar {
-    width: 250px;
+    width: 200px;
     /*background: #333;*/
     background-color: darkslategrey;
     color: white;
     opacity: 1;
     transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-.ml-sidebar-container {
-    position:fixed; 
-    width:250px; 
-    height:100vh; 
-    padding-top:50px;
-    display:flex; 
-    flex-direction:column;
+    position: fixed;
+    height: 100%;
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    z-index:999;
 }
 
 .ml-sidebar-scroll {
     flex: 1;
     overflow-y: auto;
-    /* Hide scrollbar for Chrome, Edge, Safari */
-    scrollbar-width: none; /* Firefox */
-}
-
-.ml-sidebar-scroll::-webkit-scrollbar {
-    width: 0;
-    height: 0;
 }
 
 .ml-sidebar-content {
@@ -123,6 +114,11 @@ body, html {
         width: 0px;
         transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
         opacity: 0;
+    }
+
+    .container-ml {
+        margin-left: 10px;
+        transition: margin-left ease 0.3s;
     }
 
     .navbar-ml-right-search:focus {

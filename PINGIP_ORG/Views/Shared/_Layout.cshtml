@@ -52,19 +52,17 @@
 
     <div class="ml-sidebar-content">
         <div id="ml-sidebar" class="ml-sidebar">
-            <div class="ml-sidebar-container">
-                <div class="ml-sidebar-scroll">
-                    <!-- content of the sidebar -->
-                    <p style="color:lightgray; margin-left:10px; margin-top:10px;">Tools</p>
-                    <p>@Html.ActionLink("Ping IP", "Index", "Home", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
-                    <p>@Html.ActionLink("Port Check", "Index", "PortCheck", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
-                    <p>@Html.ActionLink("TraceRoute", "Index", "TraceRoute", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
-                    <p>@Html.ActionLink("My IP", "Index", "MyIP", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
-                    <p style="height:2px; background-color:lightgray; margin-left:10px; margin-right:10px;"></p>
-                    <p style="color:lightgray; margin-left:10px;">Information</p>
-                    <p>@Html.ActionLink("About", "About", "Home", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
-                    <p>@Html.ActionLink("Legal", "Legal", "Home", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
-                </div>
+            <div class="ml-sidebar-scroll">
+                <!-- content of the sidebar -->
+                <p style="color:lightgray; margin-left:10px; margin-top:10px;">Tools</p>
+                <p>@Html.ActionLink("Ping IP", "Index", "Home", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
+                <p>@Html.ActionLink("Port Check", "Index", "PortCheck", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
+                <p>@Html.ActionLink("TraceRoute", "Index", "TraceRoute", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
+                <p>@Html.ActionLink("My IP", "Index", "MyIP", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
+                <p style="height:2px; background-color:lightgray; margin-left:10px; margin-right:10px;"></p>
+                <p style="color:lightgray; margin-left:10px;">Information</p>
+                <p>@Html.ActionLink("About", "About", "Home", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
+                <p>@Html.ActionLink("Legal", "Legal", "Home", null, new { @class = "btn btn-light btn-lg ml-sidebar-button" })</p>
             </div>
         </div>
         <div class="container-ml" style="margin-left:10px; margin-right:10px;">
@@ -87,19 +85,27 @@
 
     <script>
         const mediaQuery = window.matchMedia('(max-width: 1000px)');
+        
+        const main = document.querySelector('.container-ml');
 
         const sidebar = document.querySelector('.ml-sidebar');
 
         function showSidebar() {
-            sidebar.style.width = '250px'; // or any desired width
+            sidebar.style.width = '200px';
             sidebar.style.opacity = '1';
             sidebar.classList.add('active');
+
+            main.style.marginLeft = '210px';
+            main.classList.add('active');
         }
 
         function hideSidebar() {
             sidebar.style.width = '0px';
             sidebar.style.opacity = '0';
             sidebar.classList.remove('active');
+
+            main.style.marginLeft = '10px';
+            main.classList.remove('active');
         }
 
         function handleMediaQueryChange(event) {
@@ -109,12 +115,19 @@
                 sidebar.style.opacity = '0';
                 sidebar.style.transition = 'width 0.3s ease-in-out, opacity 0.3s ease-in-out';
                 sidebar.classList.remove('active');
+
+                main.style.marginLeft = '10px';
+                main.style.transition = 'margin-left ease 0.3s';
+                main.classList.remove('active');
             } else {
                 // Media query does not match (screen width is greater than 1000px)
                 sidebar.style.width = '';
                 sidebar.style.opacity = '';
                 sidebar.style.transition = '';
                 sidebar.classList.add('active');
+
+                main.style.marginLeft = '210px';
+                main.classList.remove('active');
             }
         }
 

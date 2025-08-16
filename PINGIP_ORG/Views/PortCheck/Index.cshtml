@@ -61,7 +61,7 @@
         The Server is located in Germany.
     </p>
 
-    <h2>Other Tools</h2>
+    <h2 class="bi-tools"> Other Tools</h2>
     <div class="list-group" style="">
         @Html.ActionLink(" Ping IP - Ping a specific IP-Address", "Index", "Home", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
         @Html.ActionLink(" Trace Route - Trace Route on a specific IP-Address", "Index", "TraceRoute", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
@@ -69,12 +69,12 @@
     </div>
     <br />
 
-    <h2>🔐 Understanding TCP and UDP Ports</h2>
+    <h2 class="bi-question-circle-fill"> Understanding TCP and UDP Ports</h2>
     <p>
         In computer networking, <strong>ports</strong> are communication endpoints used by devices to send and receive data. They help direct traffic to the correct service or application running on a device. There are two main types of transport protocols that use ports:
     </p>
 
-    <h3>🔗 TCP (Transmission Control Protocol)</h3>
+    <h3 class="bi-clipboard2-pulse-fill"> TCP (Transmission Control Protocol)</h3>
     <ul>
         <li><strong>Connection-Oriented:</strong> TCP requires a connection to be established before data is exchanged.</li>
         <li><strong>Reliable:</strong> It ensures all data packets are delivered in the correct order and checks for errors.</li>
@@ -84,7 +84,7 @@
         When checking if a TCP port is open, the client attempts to establish a connection using the <code>TCP handshake</code>. If the connection is successful, we can confidently say that the port is open and accepting connections.
     </p>
 
-    <h3>📡 UDP (User Datagram Protocol)</h3>
+    <h3 class="bi-clipboard2-pulse-fill"> UDP (User Datagram Protocol)</h3>
     <ul>
         <li><strong>Connectionless:</strong> UDP does not establish a connection before sending data.</li>
         <li><strong>Unreliable:</strong> There’s no guarantee that packets will arrive or be in order.</li>
@@ -94,16 +94,16 @@
         Since UDP does not use a connection handshake, there's <strong>no built-in mechanism</strong> to confirm if a port is open. If the server responds to a UDP packet, the port is likely open — but if there’s no response, we can’t be sure whether the port is closed or the response was simply dropped or ignored.
     </p>
 
-    <h3>❓ Why Can Only TCP Ports Be Confirmed Open?</h3>
+    <h3 class="bi-question-circle-fill"> Why Can Only TCP Ports Be Confirmed Open?</h3>
     <ul>
-        <li>✅ <strong>TCP:</strong> A successful handshake (connect) means the port is open.</li>
-        <li>❌ <strong>UDP:</strong> No handshake. Lack of response may mean the port is closed, filtered, or just not responding — so there's <strong>no reliable way to confirm</strong>.</li>
+        <li class="bi-check-square-fill"> <strong>TCP:</strong> A successful handshake (connect) means the port is open.</li>
+        <li class="bi-x-square"> <strong>UDP:</strong> No handshake. Lack of response may mean the port is closed, filtered, or just not responding — so there's <strong>no reliable way to confirm</strong>.</li>
     </ul>
     <p>
         As a result, **TCP port scanning** is more accurate for detecting open services, while **UDP scanning** can produce uncertain or false-negative results.
     </p>
 
-    <h4>📌 Summary</h4>
+    <h4 class="bi-trophy"> Summary</h4>
     <table style="border-collapse: collapse; width: 100%;">
         <tr>
             <th style="border: 1px solid #ccc; padding: 6px;">Protocol</th>
@@ -115,13 +115,13 @@
             <td style="border: 1px solid #ccc; padding: 6px;">TCP</td>
             <td style="border: 1px solid #ccc; padding: 6px;">Connection-Oriented</td>
             <td style="border: 1px solid #ccc; padding: 6px;">Yes</td>
-            <td style="border: 1px solid #ccc; padding: 6px;">✅ Yes</td>
+            <td style="border: 1px solid #ccc; padding: 6px;" class="bi-check-square-fill"> Yes</td>
         </tr>
         <tr>
             <td style="border: 1px solid #ccc; padding: 6px;">UDP</td>
             <td style="border: 1px solid #ccc; padding: 6px;">Connectionless</td>
             <td style="border: 1px solid #ccc; padding: 6px;">No</td>
-            <td style="border: 1px solid #ccc; padding: 6px;">⚠️ Not reliably</td>
+            <td style="border: 1px solid #ccc; padding: 6px;" class="bi-exclamation-triangle"> Not reliably</td>
         </tr>
     </table>
 </div>

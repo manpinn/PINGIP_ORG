@@ -55,7 +55,7 @@
         The Server is located in Germany.
     </p>
 
-    <h2>Other Tools</h2>
+    <h2 class="bi-tools"> Other Tools</h2>
     <div class="list-group" style="">
         @Html.ActionLink(" Ping IP - Ping a specific IP-Address", "Index", "Home", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
         @Html.ActionLink(" Port Check - Check if ports are open on a specific IP-Address", "Index", "PortCheck", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
@@ -63,13 +63,13 @@
     </div>
     <br />
 
-    <h2>🛰️ Traceroute Tool</h2>
+    <h2 class="bi-question-circle-fill"> Traceroute Tool</h2>
 
     <p>
         This tool is especially useful for diagnosing network routing issues, identifying bottlenecks, or understanding how data travels across the internet to the target system.
     </p>
 
-    <h3>📄 Example Output</h3>
+    <h3 class="bi-code-slash"> Example Output</h3>
     <div style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; margin-bottom:1rem;">
         Tracing route to 8.8.8.8 over a maximum of 30 hops:<br />
         <br />
@@ -81,21 +81,21 @@
     Trace complete.
     </div>
 
-    <h3>📌 Explanation of Parameters</h3>
+    <h3 class="bi-clipboard2-pulse-fill"> Explanation of Parameters</h3>
     <ul>
         <li><strong>Hop Number:</strong> Shows the sequence of routers the packet travels through.</li>
         <li><strong>Round-Trip Times:</strong> Shows how long (in milliseconds) each router takes to respond.</li>
         <li><strong>IP / Hostname:</strong> Displays the IP-Address or domain name of the responding router.</li>
     </ul>
 
-    <h3>🔍 What Traceroute Reveals</h3>
+    <h3 class="bi-question-circle-fill"> What Traceroute Reveals</h3>
     <ul>
         <li><strong>Network Latency:</strong> Helps you spot where delays or timeouts happen in the path.</li>
         <li><strong>Routing Path:</strong> Useful for understanding which regions or networks your traffic passes through.</li>
         <li><strong>Failures or Timeouts:</strong> Asterisks (*) indicate a hop didn't respond, possibly due to firewall rules or timeouts.</li>
     </ul>
 
-    <h4>🛠️ When to Use Traceroute</h4>
+    <h4 class="bi-trophy"> When to Use Traceroute</h4>
     <ul>
         <li>Troubleshooting slow connections</li>
         <li>Identifying where a connection is being blocked or delayed</li>

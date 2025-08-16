@@ -56,7 +56,7 @@
         The Server is located in Germany.
     </p>
 
-    <h2>Other Tools</h2>
+    <h2 class="bi-tools"> Other Tools</h2>
     <div class="list-group" style="">
         @Html.ActionLink(" Port Check - Check if ports are open on a specific IP-Address", "Index", "PortCheck", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
         @Html.ActionLink(" Trace Route - Trace Route on a specific IP-Address", "Index", "TraceRoute", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
@@ -64,11 +64,11 @@
     </div>
     <br />
 
-    <h2>🔍 Understanding Ping Results</h2>
+    <h2 class="bi-question-circle-fill"> Understanding Ping Results</h2>
 
     <p><strong>Ping</strong> is a network utility used to test the reachability of a host and measure the round-trip time of messages sent from the origin to the destination.</p>
 
-    <h3>📄 Example Output</h3>
+    <h3 class="bi-code-slash"> Example Output</h3>
     <div style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; margin-bottom:1rem;">
         Pinged 8.8.8.8 with 32 bytes of data:<br />
         Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
@@ -82,7 +82,7 @@
         Minimum = 4ms, Maximum = 4ms, Average = 4ms
     </div>
 
-    <h3>📌 Explanation of Parameters</h3>
+    <h3 class="bi-clipboard2-pulse-fill"> Explanation of Parameters</h3>
     <ul>
         <li><strong>Reply from</strong>: The IP-Address that responded to the ping.</li>
         <li><strong>bytes=32</strong>: Size of each packet sent (in bytes). Default is 32 bytes.</li>
@@ -90,14 +90,14 @@
         <li><strong>TTL (Time To Live)</strong>: Limits the number of network hops a packet can take. It prevents infinite loops.</li>
     </ul>
 
-    <h3>📊 Summary Section</h3>
+    <h3 class="bi-trophy"> Summary</h3>
     <ul>
         <li><strong>Sent/Received/Lost</strong>: Shows network reliability.</li>
         <li><strong>Loss Percentage</strong>: Packet loss indicates network issues.</li>
         <li><strong>Round Trip Times</strong>: Helps determine network speed and stability (Min/Max/Avg).</li>
     </ul>
 
-    <h3>⏱️ What is Round-Trip Time (RTT)?</h3>
+    <h3 class="bi-clock-fill"> What is Round-Trip Time (RTT)?</h3>
     <p>
         <strong> Round-trip time (RTT)</strong> refers to the time it takes for a packet of data to travel from your device to the target device (like a server) and then back again. RTT is often used to measure network latency.
     </p>
@@ -110,9 +110,9 @@
     </ul>
     <h4>RTT Breakdown:</h4>
     <ul>
-        <li><strong>📉 Minimum RTT:</strong> The fastest time it took for the packet to round trip.</li>
-        <li><strong>⏳ Maximum RTT:</strong> The longest time it took for the packet to round trip.</li>
-        <li><strong>📊 Average RTT:</strong> The average time of multiple ping requests.</li>
+        <li><strong>Minimum RTT:</strong> The fastest time it took for the packet to round trip.</li>
+        <li><strong>Maximum RTT:</strong> The longest time it took for the packet to round trip.</li>
+        <li><strong>Average RTT:</strong> The average time of multiple ping requests.</li>
     </ul>
     <p>
         <strong>Why is RTT important?</strong> A lower RTT indicates a faster connection with less latency, while a higher RTT suggests slower network performance.

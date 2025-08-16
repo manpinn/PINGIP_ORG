@@ -72,26 +72,28 @@
             </div>
         </div>
         <div class="container-ml" style="margin-left:10px; margin-right:10px;">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-            <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top" style="padding-bottom: 4rem !important;">
-                <div class="col-md-5 d-flex align-items-center">
-                    <span class="mb-3 mb-md-0 text-primary" style="margin-right:20px;">© @DateTime.Now.Year Mario Kozlovac</span>
-                    <span class="mb-3 mb-md-0" style="margin-right:20px;">
-                        @Html.ActionLink("About", "About", "Home", null, new { @class = "icon-link icon-link-hover bi-clipboard" })
-                    </span>
-                    <span class="mb-3 mb-md-0">
-                        @Html.ActionLink("Legal", "Legal", "Home", null, new { @class = "icon-link icon-link-hover bi-clipboard" })
-                    </span>
-                </div>
-            </footer>
+            <div class="ml-main">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+                <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top" style="padding-bottom: 4rem !important;">
+                    <div class="col-md-5 d-flex align-items-center">
+                        <span class="mb-3 mb-md-0 text-primary" style="margin-right:20px;">© @DateTime.Now.Year Mario Kozlovac</span>
+                        <span class="mb-3 mb-md-0" style="margin-right:20px;">
+                            @Html.ActionLink("About", "About", "Home", null, new { @class = "icon-link icon-link-hover bi-clipboard" })
+                        </span>
+                        <span class="mb-3 mb-md-0">
+                            @Html.ActionLink("Legal", "Legal", "Home", null, new { @class = "icon-link icon-link-hover bi-clipboard" })
+                        </span>
+                    </div>
+                </footer>
+            </div>
         </div>
     </div>
 
     <script>
         const mediaQuery = window.matchMedia('(max-width: 1000px)');
-        
+
         const main = document.querySelector('.container-ml');
 
         const sidebar = document.querySelector('.ml-sidebar');

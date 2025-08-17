@@ -8,7 +8,7 @@
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "dotnet: build /home/mko/repo/PINGIP_ORG/PINGIP_ORG/PINGIP_ORG.csproj",
+            "preLaunchTask": "build",
             "program": "${workspaceFolder}/PINGIP_ORG/bin/Debug/net9.0/PINGIP_ORG.dll",
             "args": [],
             "cwd": "${workspaceFolder}/PINGIP_ORG",

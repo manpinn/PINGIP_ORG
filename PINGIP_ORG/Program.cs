@@ -4,11 +4,11 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 ////for linux
-//var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-//{
+// var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+// {
 //    WebRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG/wwwroot",
 //    ContentRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG"
-//});
+// });
 ////for linux
 
 // Add services to the container.
@@ -35,15 +35,15 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 ////for linux
-//builder.Configuration
+// builder.Configuration
 //    .SetBasePath("/opt/MEICOTI_LABS/PINGIP_ORG")
 //    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-//builder.Configuration
+// builder.Configuration
 //    .SetBasePath("/opt/MEICOTI_LABS/PINGIP_ORG")
 //    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
-//builder.WebHost.UseUrls("http://0.0.0.0:5065");
+// builder.WebHost.UseUrls("http://0.0.0.0:5065");
 ////for linux
 
 builder.Services.AddCors(options =>

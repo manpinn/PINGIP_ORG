@@ -1,0 +1,6 @@
+1. Rebuild: F6 or sudo dotnet build
+2. sudo dotnet run
+3. F%
+4. Select PINGIP_ORG process
+
+5. To Kill: sudo pkill dotnet

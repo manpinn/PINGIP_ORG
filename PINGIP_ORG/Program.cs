@@ -42,9 +42,14 @@ builder.Host.UseSerilog();
 // builder.Configuration
 //    .SetBasePath("/opt/MEICOTI_LABS/PINGIP_ORG")
 //    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
-
-// builder.WebHost.UseUrls("http://0.0.0.0:5065");
+//
+// builder.WebHost.UseUrls("https://localhost:7174;http://localhost:5250");
 ////for linux
+///
+
+
+//debugging in LAN
+builder.WebHost.UseUrls("https://0.0.0.0:7174;http://0.0.0.0:5250");
 
 builder.Services.AddCors(options =>
 {

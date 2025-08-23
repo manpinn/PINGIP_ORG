@@ -10,13 +10,13 @@ namespace PINGIP_ORG.Services
 {
     public class PortCheckService
     {
-        private readonly GlobalPortCheckIPDictionaryService _globalIPDictionary;
+        private readonly GlobalPortCheckIPDictionaryService _globalIPDictionaryService;
 
         private readonly ILogger<PortCheckService> _logger;
 
-        public PortCheckService(GlobalPortCheckIPDictionaryService globalIPDictionary, ILogger<PortCheckService> logger)
+        public PortCheckService(GlobalPortCheckIPDictionaryService globalIPDictionaryService, ILogger<PortCheckService> logger)
         {
-            _globalIPDictionary = globalIPDictionary;
+            _globalIPDictionaryService = globalIPDictionaryService;
 
             _logger = logger;
         }
@@ -25,21 +25,9 @@ namespace PINGIP_ORG.Services
         {
             string ipAddressToPrint = ipType == IpAddressType.IPv6 ? $"[{ipAddress}]" : ipAddress;
 
-            if (_globalIPDictionary.TryGet(remoteIpAddress, out DateTime lastPing))
-            {
-                if (DateTime.Now - lastPing < Globals.minPortCheckTimeSpan)
-                {
-                    return $"Requests from your IP-Address are too frequent. Please wait {(int)((Globals.minPortCheckTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
-                }
-                else
-                {
-                    _globalIPDictionary.AddOrUpdate(remoteIpAddress, DateTime.Now);
-                }
-            }
-            else
-            {
-                _globalIPDictionary.AddOrUpdate(remoteIpAddress, DateTime.Now);
-            }
+            var (requestState, message) = _globalIPDictionaryService.RequestFrequencyState(remoteIpAddress, ipAddress);
+
+            if (requestState != RequestState.Pass) return message;
 
             StringBuilder result = new StringBuilder();
 

@@ -1,4 +1,5 @@
 ﻿using PINGIP_ORG.Common;
+using PINGIP_ORG.Enums;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -7,34 +8,23 @@ namespace PINGIP_ORG.Services
 {
     public class TraceRouteService
     {
-        private readonly GlobalTraceRouteIPDictionaryService _globalIPDictionary;
+        private readonly GlobalTraceRouteIPDictionaryService _globalIPDictionaryService;
 
         private readonly ILogger<TraceRouteService> _logger;
 
-        public TraceRouteService(GlobalTraceRouteIPDictionaryService globalIPDictionary, ILogger<TraceRouteService> logger)
+        public TraceRouteService(GlobalTraceRouteIPDictionaryService globalIPDictionaryService, ILogger<TraceRouteService> logger)
         {
-            _globalIPDictionary = globalIPDictionary;
+            _globalIPDictionaryService = globalIPDictionaryService;
 
             _logger = logger;
         }
 
         public async Task<string> TraceRoute(string ipAddress, string remoteIpAddress)
         {
-            if (_globalIPDictionary.TryGet(remoteIpAddress, out DateTime lastPing))
-            {
-                if (DateTime.Now - lastPing < Globals.minTraceRouteTimeSpan)
-                {
-                    return $"TraceRoute from your IP-Address is too frequent. Please wait {(int)((Globals.minTraceRouteTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
-                }
-                else
-                {
-                    _globalIPDictionary.AddOrUpdate(remoteIpAddress, DateTime.Now);
-                }
-            }
-            else
-            {
-                _globalIPDictionary.AddOrUpdate(remoteIpAddress, DateTime.Now);
-            }
+            var(requestState, message) = _globalIPDictionaryService.RequestFrequencyState(remoteIpAddress, ipAddress);
+
+            if (requestState != RequestState.Pass) return message;
+
 
             int timeout = 5000;           // Timeout in milliseconds
             int maxHops = 100;
@@ -85,11 +75,11 @@ namespace PINGIP_ORG.Services
                 }
                 catch (Exception ex)
                 {
-                    string message = ex.Message;
+                    string errorMessage = ex.Message;
 
-                    if (ex.InnerException != null) message += "; " + ex.InnerException.Message;
+                    if (ex.InnerException != null) errorMessage += "; " + ex.InnerException.Message;
 
-                    result.Append($"TraceRoute failed: {message}").Append("\n");
+                    result.Append($"TraceRoute failed: {errorMessage}").Append("\n");
                 }
 
                 Thread.Sleep(1000); // Wait 1 second between pings

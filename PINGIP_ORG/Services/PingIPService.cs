@@ -1,39 +1,28 @@
-﻿using System.Net.NetworkInformation;
+﻿using PINGIP_ORG.Common;
+using PINGIP_ORG.Enums;
+using System.Net.NetworkInformation;
 using System.Text;
-using PINGIP_ORG.Common;
 
 namespace PINGIP_ORG.Services
 {
     public class PingIPService
     {
-        private readonly GlobalPingIPDictionaryService _globalIPDictionary;
+        private readonly GlobalPingIPDictionaryService _globalIPDictionaryService;
 
         private readonly ILogger<PingIPService> _logger;
 
-        public PingIPService(GlobalPingIPDictionaryService globalIPDictionary, ILogger<PingIPService> logger)
+        public PingIPService(GlobalPingIPDictionaryService globalIPDictionaryService, ILogger<PingIPService> logger)
         {
-            _globalIPDictionary = globalIPDictionary;
+            _globalIPDictionaryService = globalIPDictionaryService;
 
             _logger = logger;
         }
 
         public async Task<string> PingIP(string ipAddress, string remoteIpAddress)
         {
-            if (_globalIPDictionary.TryGet(remoteIpAddress, out DateTime lastPing))
-            {
-                if (DateTime.Now - lastPing < Globals.minPingTimeSpan)
-                {
-                    return $"Ping from your IP-Address is too frequent. Please wait {(int)((Globals.minPingTimeSpan - (DateTime.Now - lastPing)).TotalSeconds)} seconds.";
-                }
-                else
-                {
-                    _globalIPDictionary.AddOrUpdate(remoteIpAddress, DateTime.Now);
-                }
-            }
-            else
-            {
-                _globalIPDictionary.AddOrUpdate(remoteIpAddress, DateTime.Now);
-            }
+            var (requestState, message) = _globalIPDictionaryService.RequestFrequencyState(remoteIpAddress, ipAddress);
+
+            if (requestState != RequestState.Pass) return message;
 
             int pingCount = 4;            // Default number of pings
             int timeout = 1000;           // Timeout in milliseconds
@@ -90,11 +79,11 @@ namespace PINGIP_ORG.Services
                 {
                     lost++;
 
-                    string message = ex.Message;
+                    string errorMessage = ex.Message;
 
-                    if (ex.InnerException != null) message += "; " + ex.InnerException.Message;
+                    if (ex.InnerException != null) errorMessage += "; " + ex.InnerException.Message;
 
-                    result.Append("\n").Append($"Ping failed: {message}").Append("\n");
+                    result.Append("\n").Append($"Ping failed: {errorMessage}").Append("\n");
                 }
 
                 Thread.Sleep(1000); // Wait 1 second between pings

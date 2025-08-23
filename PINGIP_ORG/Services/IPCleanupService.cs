@@ -26,13 +26,27 @@ namespace PINGIP_ORG.Services
             {
                 _logger.LogInformation("Running IP cleanup at: {time}", DateTime.Now);
 
-                foreach (var item in _globalIPDictionary.GetAll())
+                foreach (var item in _globalIPDictionary.GetAllRequestsFromDic())
                 {
                     DateTime timestamp = item.Value;
 
                     if ((DateTime.Now - timestamp) > _cleanupTimeSpanDate)
                     {
-                        _globalIPDictionary.TryRemove(item.Key);
+                        _globalIPDictionary.TryRemoveRequestsFromDic(item.Key);
+
+                        //_logger.LogInformation("Removed stale key: {key}", item.Key);
+                    }
+
+                }
+
+                foreach (var item in _globalIPDictionary.GetAllRequestsToDic())
+                {
+                    DateTime timestamp = item.Value;
+
+                    if ((DateTime.Now - timestamp) > _cleanupTimeSpanDate)
+                    {
+                        _globalIPDictionary.TryRemoveRequestsToDic(item.Key);
+
                         //_logger.LogInformation("Removed stale key: {key}", item.Key);
                     }
 

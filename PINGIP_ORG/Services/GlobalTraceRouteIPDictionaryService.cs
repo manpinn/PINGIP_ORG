@@ -72,7 +72,7 @@ namespace PINGIP_ORG.Services
             {
                 this.AddOrUpdateRequestsFromDic(sourceIpAddress, DateTime.Now);
 
-                this.AddOrUpdateRequestsToDic(sourceIpAddress, DateTime.Now);
+                this.AddOrUpdateRequestsToDic(targetIpAddress, DateTime.Now);
 
                 return (RequestState.Pass, null);
             }

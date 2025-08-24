@@ -62,17 +62,17 @@ namespace PINGIP_ORG.Services
         {
             if (this.TryGetRequestsFromDic(sourceIpAddress, out DateTime lastPingFrom) && DateTime.Now - lastPingFrom < Globals.minPingTimeFromSpan)
             {
-                return (RequestState.RequestsFromIPTooFrequent, $"Ping from your IP-Address are too frequent. Please wait {(int)((Globals.minPingTimeFromSpan - (DateTime.Now - lastPingFrom)).TotalSeconds)} seconds.");
+                return (RequestState.RequestsFromIPTooFrequent, $"Ping from your IP-Address is too frequent. Please wait {(int)((Globals.minPingTimeFromSpan - (DateTime.Now - lastPingFrom)).TotalSeconds)} seconds.");
             }
             else if (this.TryGetRequestsToDic(targetIpAddress, out DateTime lastPingTo) && DateTime.Now - lastPingTo < Globals.minPingTimeToSpan)
             {
-                return (RequestState.RequestsToIPTooFrequent, $"Ping to the Target-IP-Address are too frequent. Please wait {(int)((Globals.minPingTimeToSpan - (DateTime.Now - lastPingTo)).TotalSeconds)} seconds.");
+                return (RequestState.RequestsToIPTooFrequent, $"Ping to the Target-IP-Address is too frequent. Please wait {(int)((Globals.minPingTimeToSpan - (DateTime.Now - lastPingTo)).TotalSeconds)} seconds.");
             }
             else
             {
                 this.AddOrUpdateRequestsFromDic(sourceIpAddress, DateTime.Now);
 
-                this.AddOrUpdateRequestsToDic(sourceIpAddress, DateTime.Now);
+                this.AddOrUpdateRequestsToDic(targetIpAddress, DateTime.Now);
 
                 return (RequestState.Pass, null);
             }

@@ -49,7 +49,7 @@ builder.Host.UseSerilog();
 
 
 //debugging in LAN
-builder.WebHost.UseUrls("https://0.0.0.0:7174;http://0.0.0.0:5250");
+//builder.WebHost.UseUrls("https://0.0.0.0:7174;http://0.0.0.0:5250");
 
 builder.Services.AddCors(options =>
 {

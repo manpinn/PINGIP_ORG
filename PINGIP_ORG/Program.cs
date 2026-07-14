@@ -6,8 +6,8 @@ using Serilog;
 //for linux
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
-    WebRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG/wwwroot",
-    ContentRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG"
+    WebRootPath = "/opt/REGRESIK/PINGIP_ORG/wwwroot",
+    ContentRootPath = "/opt/REGRESIK/PINGIP_ORG"
 });
 //for linux
 
@@ -36,11 +36,11 @@ builder.Host.UseSerilog();
 
 //for linux
 builder.Configuration
-    .SetBasePath("/opt/REGRESIK/GAMESONWEB")
+    .SetBasePath("/opt/REGRESIK/PINGIP_ORG")
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
 builder.Configuration
-    .SetBasePath("/opt/REGRESIK/GAMESONWEB")
+    .SetBasePath("/opt/REGRESIK/PINGIP_ORG")
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
 //for linux

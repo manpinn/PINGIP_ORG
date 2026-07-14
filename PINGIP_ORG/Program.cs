@@ -1,15 +1,15 @@
 using PINGIP_ORG.Services;
 using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+//var builder = WebApplication.CreateBuilder(args);
 
-////for linux
-// var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-// {
-//    WebRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG/wwwroot",
-//    ContentRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG"
-// });
-////for linux
+//for linux
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    WebRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG/wwwroot",
+    ContentRootPath = "/opt/MEICOTI_LABS/PINGIP_ORG"
+});
+//for linux
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -34,18 +34,17 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-////for linux
-// builder.Configuration
-//    .SetBasePath("/opt/MEICOTI_LABS/PINGIP_ORG")
-//    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+//for linux
+builder.Configuration
+    .SetBasePath("/opt/REGRESIK/GAMESONWEB")
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-// builder.Configuration
-//    .SetBasePath("/opt/MEICOTI_LABS/PINGIP_ORG")
-//    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
-//
-// builder.WebHost.UseUrls("https://localhost:7174;http://localhost:5250");
-////for linux
-///
+builder.Configuration
+    .SetBasePath("/opt/REGRESIK/GAMESONWEB")
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+//for linux
+
 
 
 //debugging in LAN

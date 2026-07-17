@@ -72,6 +72,40 @@
         </div>
     </div>
 
+    <div class="modal fade" id="advertModal" tabindex="-1" aria-labelledby="adModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="adModalLabel">Our newest project</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zatvori"></button>
+                </div>
+                <div class="modal-body">
+                   
+    <div class="card-body" style="text-align: center;">
+        <h5 class="card-title">FlightCraft</h5>
+        <p class="card-text">
+            <span>
+                                Experience Minecraft Survival like never before.
+                                Every player on our server enjoys full Fly‑Mode, unlocking a completely new way to explore, build, and survive.
+                                Access is available only after payment, ensuring a clean and protected community.
+                                If you want to try it out first, a one‑day trial is waiting for you — no strings attached.
+        </span>
+    </p>
+    </div>
+    <div style="padding:5px;">
+        <img src="~/pic/flightcraft_1.jpg" class="img-fluid img-thumbnail rounded mx-auto d-block" alt="Pic 4">
+    </div>
+    <div class="text-center" style="padding-top: 10px;">
+        <a href="https://gamesonweb.net" class="btn btn-primary bi bi-play mb-3" target="_blank">
+            Go to
+        </a>
+    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         const mediaQuery = window.matchMedia('(max-width: 1000px)');
 
@@ -138,7 +172,21 @@
             }
         });
 
+            document.addEventListener("DOMContentLoaded", function() {
 
+                if (!sessionStorage.getItem("advertModalShown")) {
+
+                    const modalEl = document.getElementById('advertModal');
+                    const modal = new bootstrap.Modal(modalEl);
+
+                    setTimeout(() => {
+                        modal.show();
+
+                        sessionStorage.setItem("advertModalShown", "true");
+
+                    }, 300000);
+                }
+            });
 
 
 

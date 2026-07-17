@@ -1,14 +1,14 @@
 using PINGIP_ORG.Services;
 using Serilog;
 
-//var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 //for linux
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    WebRootPath = "/opt/REGRESIK/PINGIP_ORG/wwwroot",
-    ContentRootPath = "/opt/REGRESIK/PINGIP_ORG"
-});
+//var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+//{
+//    WebRootPath = "/opt/REGRESIK/PINGIP_ORG/wwwroot",
+//    ContentRootPath = "/opt/REGRESIK/PINGIP_ORG"
+//});
 //for linux
 
 // Add services to the container.
@@ -35,13 +35,13 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 //for linux
-builder.Configuration
-    .SetBasePath("/opt/REGRESIK/PINGIP_ORG")
-    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+//builder.Configuration
+//    .SetBasePath("/opt/REGRESIK/PINGIP_ORG")
+//    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-builder.Configuration
-    .SetBasePath("/opt/REGRESIK/PINGIP_ORG")
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+//builder.Configuration
+//    .SetBasePath("/opt/REGRESIK/PINGIP_ORG")
+//    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
 //for linux
 

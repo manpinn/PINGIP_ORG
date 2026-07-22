@@ -1,15 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GPR48YBGC9"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-GPR48YBGC9');
-    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - PINGIP.ORG</title>
@@ -105,6 +96,90 @@
         </div>
     </div>
 
+    <!-- Popup -->
+<div id="consent-popup" class="popup hidden">
+  <div class="popup-content">
+    <h3>Cookie Settings</h3>
+    <p>We use Google Analytics. Please choose your preference.</p>
+
+    <button id="consent-accept">Accept</button>
+    <button id="consent-deny">Decline</button>
+  </div>
+</div>
+
+<style>
+  .popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+  }
+  .popup.hidden { display: none; }
+
+  .popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  }
+
+  button {
+    margin: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  #consent-accept { background: #4caf50; color: #fff; }
+  #consent-deny { background: #f44336; color: #fff; }
+</style>
+
+<script>
+  // Check stored consent
+  const consent = localStorage.getItem("consent");
+  const popup = document.getElementById("consent-popup");
+
+  // Show popup only if no decision exists
+  if (!consent) {
+    popup.classList.remove("hidden");
+  }
+
+  // Accept
+  document.getElementById("consent-accept").onclick = () => {
+    localStorage.setItem("consent", "accepted");
+    popup.classList.add("hidden");
+    loadAnalytics();
+  };
+
+  // Deny
+  document.getElementById("consent-deny").onclick = () => {
+    localStorage.setItem("consent", "denied");
+    popup.classList.add("hidden");
+  };
+
+  // Load GA only if accepted
+  if (consent === "accepted") {
+    loadAnalytics();
+  }
+
+  // Google Analytics loader
+  function loadAnalytics() {
+    const s = document.createElement("script");
+                s.src = "https://www.googletagmanager.com/gtag/js?id=G-GPR48YBGC9";
+    document.head.appendChild(s);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+                gtag("config", "G-GPR48YBGC9");
+  }
+</script>
 
     <script>
         const mediaQuery = window.matchMedia('(max-width: 1000px)');

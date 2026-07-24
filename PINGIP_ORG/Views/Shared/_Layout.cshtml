@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="advertModal" tabindex="-1" aria-labelledby="adModalLabel" aria-hidden="true">
+    @* <div class="modal fade" id="advertModal" tabindex="-1" aria-labelledby="adModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-success text-white">
@@ -98,7 +98,7 @@
         </div>
     </div>
 
-    <!-- Popup -->
+    <!-- Popup --> *@
 <div id="consent-popup" class="popup hidden">
   <div class="popup-content">
     <h3>Cookie Settings</h3>
@@ -249,21 +249,21 @@
             }
         });
 
-            document.addEventListener("DOMContentLoaded", function() {
+            // document.addEventListener("DOMContentLoaded", function() {
 
-                if (!sessionStorage.getItem("advertModalShown")) {
+            //     if (!sessionStorage.getItem("advertModalShown")) {
 
-                    const modalEl = document.getElementById('advertModal');
-                    const modal = new bootstrap.Modal(modalEl);
+            //         const modalEl = document.getElementById('advertModal');
+            //         const modal = new bootstrap.Modal(modalEl);
 
-                    setTimeout(() => {
-                        modal.show();
+            //         setTimeout(() => {
+            //             modal.show();
 
-                        sessionStorage.setItem("advertModalShown", "true");
+            //             sessionStorage.setItem("advertModalShown", "true");
 
-                    }, 300000);
-                }
-            });
+            //         }, 300000);
+            //     }
+            // });
 
 
 

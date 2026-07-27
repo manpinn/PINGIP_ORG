@@ -2,6 +2,6 @@
 {
     public static class GlobalServerIPAddress
     {
-        public static readonly string ServerIPAddress = "212.227.60.248";
+        public static readonly string ServerIPAddress = "31.70.105.4";
     }
 }

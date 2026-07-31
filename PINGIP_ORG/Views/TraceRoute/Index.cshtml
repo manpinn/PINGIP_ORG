@@ -14,6 +14,30 @@
     </div>
     <input id="input-ip" type="text" class="form-control" placeholder="Type in the IP-Address here" aria-label="IPv4/IPv6-Address" aria-describedby="basic-addon1">
 </div>
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text bg-dark-subtle" id="basic-addon1">Timeout in milllisecsonds</span>
+    </div>
+    <input id="input-timeout" type="text" class="form-control" placeholder="default is 10000" aria-label="Timeout in millliseconds" aria-describedby="basic-addon1">
+</div>
+<div class="input-group mb-3">
+    <div class="input-group-prepend">
+        <span class="input-group-text bg-dark-subtle" id="basic-addon1">Maximum number of hops</span>
+    </div>
+    <input id="input-maxhops" type="text" class="form-control" placeholder="default is 100" aria-label="Maximum number of hops" aria-describedby="basic-addon1">
+</div>
+
+
+<div class="form-check form-switch">
+    <input class="form-check-input big-switch" type="checkbox" role="switch" id="switchA">
+    <label class="form-check-label" for="switchCheckDefault">WHOIS</label>
+</div>
+<div class="form-check form-switch" style="display: none;">
+    <input class="form-check-input big-switch" type="checkbox" role="switch" id="switchB">
+    <label class="form-check-label" for="switchCheckChecked">NSLOOKUP</label>
+</div>
+
+
 
 <div class="d-grid gap-2 d-md-flex">
     <button id="btn-ping" class="btn btn-primary" type="button" style="width: 166px;">TRACEROUTE</button>
@@ -74,11 +98,11 @@
         Tracing route to 8.8.8.8 over a maximum of 30 hops:<br />
         <br />
         1    <1 ms    <1 ms    <1 ms  192.168.1.1<br />
-    2     5 ms     4 ms     5 ms  10.0.0.1<br />
-    3    12 ms    11 ms    13 ms  core-router.provider.net [203.0.113.1]<br />
-    4    18 ms    18 ms    17 ms  8.8.8.8<br />
-    <br />
-    Trace complete.
+        2     5 ms     4 ms     5 ms  10.0.0.1<br />
+        3    12 ms    11 ms    13 ms  core-router.provider.net [203.0.113.1]<br />
+        4    18 ms    18 ms    17 ms  8.8.8.8<br />
+        <br />
+        Trace complete.
     </div>
 
     <h3 class="bi-clipboard2-pulse-fill"> Explanation of Parameters</h3>
@@ -107,148 +131,188 @@
     </p>
 </div>
 
+<style>
+    .form-check.form-switch {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem; /* Abstand zwischen Switch und Label */
+    }
+
+    .form-check-input.big-switch {
+        width: 3rem;
+        height: 1.5rem;
+    }
+
+    .form-check {
+        margin-bottom: 0.75rem;
+    }
+</style>
 
 <script type="text/javascript">
 
-        var buttonPing = document.getElementById('btn-ping');
+    var buttonPing = document.getElementById('btn-ping');
 
-        function ping() {
-            //alert('Hello, World!');
+    function ping() {
+        //alert('Hello, World!');
 
-            cmdSpan.innerHTML = '';
+        cmdSpan.innerHTML = '';
 
-            document.getElementById('ml-alert').classList.add('d-none');
+        document.getElementById('ml-alert').classList.add('d-none');
 
-            document.querySelector('.ml-spinner').style.display = 'flex';
+        document.querySelector('.ml-spinner').style.display = 'flex';
 
-            let retVal = getValues();
+        let retVal = getValues();
 
-            if (retVal == -1) {
+        if (retVal == -1) {
+            document.querySelector('.ml-spinner').style.display = 'none';
+
+            const alert = document.getElementById('ml-alert');
+
+            alert.classList.remove('d-none');
+
+            alert.innerHTML = 'INSERT A VALID IP-ADDRESS';
+
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+            return;
+        }
+
+        const switches = getSwitchStates();
+
+        const setup = getSetup();
+
+        const payload = {
+            ipAddress: retVal,
+            whois: switches.whois,
+            dns: switches.dns,
+            timeout: setup.timeout,
+            maxhops: setup.maxhops
+        };
+
+        let url = '/Home/AJAX/TraceRoute';
+        let serverData = {};
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+            .then(response => response.text())
+            .then(text => {
+                serverData = text;
+                console.log(serverData);
+
+                document.querySelector('.ml-spinner').style.display = 'none';
+
+                index = 0;
+
+                cmdSpan.innerHTML = '';
+
+                nextChar(text);
+            })
+            .catch((error) => {
+
                 document.querySelector('.ml-spinner').style.display = 'none';
 
                 const alert = document.getElementById('ml-alert');
 
-                alert.classList.remove('d-none');
+                alert.innerHTML = 'SERVER-ERROR';
 
-                alert.innerHTML = 'INSERT A VALID IP-ADDRESS';
+                alert.classList.add('d-none');
 
                 window.scrollTo({
                     top: 0,
                     behavior: 'smooth'
                 });
 
-                return;
-            }
-
-            let url = '/Home/AJAX/TraceRoute';
-            let data = retVal;
-            let serverData = {};
-
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => response.text())
-                .then(text => {
-                    serverData = text;
-                    console.log(serverData);
-
-                    document.querySelector('.ml-spinner').style.display = 'none';
-
-                    index = 0;
-
-                    cmdSpan.innerHTML = '';
-
-                    nextChar(text);
-                })
-                .catch((error) => {
-
-                    document.querySelector('.ml-spinner').style.display = 'none';
-
-                    const alert = document.getElementById('ml-alert');
-
-                    alert.innerHTML = 'SERVER-ERROR';
-
-                    alert.classList.add('d-none');
-
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-
-                    console.error('Error:', error);
-                });
+                console.error('Error:', error);
+            });
 
 
+    }
+
+    function isValidIPv4(ip) {
+        const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+        return regex.test(ip);
+    }
+
+    function isValidIPv6(ip) {
+        const regex = /([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4})|::|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:([0-9a-fA-F]{1,4})|([0-9a-fA-F]{1,4}:){1,5}:([0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}:([0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}:([0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}:([0-9a-fA-F]{1,4}){1,5}|([0-9a-fA-F]{1,4}:){1,1}:([0-9a-fA-F]{1,4}){1,6}$/i;
+        return regex.test(ip);
+    }
+
+
+
+    function getValues() {
+
+        const input = document.getElementById('input-ip');
+
+        if (isValidIPv4(input.value) || isValidIPv6(input.value)) {
+            return input.value;
         }
-
-        function isValidIPv4(ip) {
-            const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-            return regex.test(ip);
+        else {
+            return -1;
         }
+    }
 
-        function isValidIPv6(ip) {
-            const regex = /([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4})|::|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:([0-9a-fA-F]{1,4})|([0-9a-fA-F]{1,4}:){1,5}:([0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}:([0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}:([0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}:([0-9a-fA-F]{1,4}){1,5}|([0-9a-fA-F]{1,4}:){1,1}:([0-9a-fA-F]{1,4}){1,6}$/i;
-            return regex.test(ip);
+    function getSwitchStates() {
+        return {
+            whois: document.getElementById("switchA").checked,
+            dns: document.getElementById("switchB").checked
+        };
+    }
+
+    function getSetup() {
+        const timeoutVal = document.getElementById("input-timeout").value;
+        const maxhopsVal = document.getElementById("input-maxhops").value;
+
+        return {
+            timeout: timeoutVal === "" ? null : parseInt(timeoutVal),
+            maxhops: maxhopsVal === "" ? null : parseInt(maxhopsVal)
+        };
+    }
+
+
+    buttonPing.addEventListener('click', ping);
+
+    function copyToClipboard() {
+        // Get the content from the cmd-span element
+        const text = document.getElementById('cmd-span').innerText;
+
+        // Create a temporary text area to copy the text
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = text;
+        document.body.appendChild(tempTextArea);
+
+        // Select the text in the text area
+        tempTextArea.select();
+        tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+
+        // Execute the copy command
+        document.execCommand('copy');
+
+        // Remove the temporary text area
+        document.body.removeChild(tempTextArea);
+    }
+
+    let index = 0;
+
+    var cmdSpan = document.getElementById('cmd-span');
+
+    function nextChar(text) {
+        if (index < text.length) {
+            cmdSpan.innerHTML += text.charAt(index);
+
+            index++;
+
+            setTimeout(() => nextChar(text), 5);
         }
-
-
-
-        function getValues() {
-
-            const input = document.getElementById('input-ip');
-
-            if(isValidIPv4(input.value) || isValidIPv6(input.value))
-            {
-                return input.value;
-            }
-            else
-            {
-                return -1;
-            }
-        }
-
-        buttonPing.addEventListener('click', ping);
-
-        function copyToClipboard() 
-        {
-            // Get the content from the cmd-span element
-            const text = document.getElementById('cmd-span').innerText;
-
-            // Create a temporary text area to copy the text
-            const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = text;
-            document.body.appendChild(tempTextArea);
-
-            // Select the text in the text area
-            tempTextArea.select();
-            tempTextArea.setSelectionRange(0, 99999); // For mobile devices
-
-            // Execute the copy command
-            document.execCommand('copy');
-
-            // Remove the temporary text area
-            document.body.removeChild(tempTextArea);
-        }
-
-        let index = 0;
-
-        var cmdSpan = document.getElementById('cmd-span');
-
-        function nextChar(text)
-        {
-            if (index < text.length)
-            {
-                cmdSpan.innerHTML += text.charAt(index);
-
-                index++;
-
-                setTimeout(() => nextChar(text), 5);
-            }
-        }
+    }
 
 </script>
 

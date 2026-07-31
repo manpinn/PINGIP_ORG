@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PINGIP_ORG.Services;
+using PINGIP_ORG.Models;
 
 namespace PINGIP_ORG.Controllers
 {
@@ -30,17 +31,17 @@ namespace PINGIP_ORG.Controllers
 
         [HttpPost]
         [Route("/Home/AJAX/TraceRoute")]
-        public async Task<IActionResult> AJAXTraceRoute([FromBody] string ipAddress)
+        public async Task<IActionResult> AJAXTraceRoute([FromBody] TraceRouteInput traceRouteInput)
         {
             string remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
                          ?? HttpContext.Connection.RemoteIpAddress?.ToString();
 
-            if (string.IsNullOrEmpty(ipAddress) || string.IsNullOrEmpty(remoteIpAddress))
+            if (string.IsNullOrEmpty(traceRouteInput.ipAddress) || string.IsNullOrEmpty(remoteIpAddress))
             {
                 return Content("Invalid Request", "text/plain");
             }
 
-            string result = await _traceRouteService.TraceRoute(ipAddress, remoteIpAddress);
+            string result = await _traceRouteService.TraceRoute(traceRouteInput, remoteIpAddress);
 
             return Content(result, "text/plain");
         }

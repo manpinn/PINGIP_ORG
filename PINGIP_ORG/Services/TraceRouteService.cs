@@ -1,8 +1,10 @@
 ﻿using PINGIP_ORG.Common;
 using PINGIP_ORG.Enums;
+using PINGIP_ORG.Models;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Text;
+using Whois.NET;
 
 namespace PINGIP_ORG.Services
 {
@@ -19,15 +21,15 @@ namespace PINGIP_ORG.Services
             _logger = logger;
         }
 
-        public async Task<string> TraceRoute(string ipAddress, string remoteIpAddress)
+        public async Task<string> TraceRoute(TraceRouteInput traceRouteInput, string remoteIpAddress)
         {
-            var(requestState, message) = _globalIPDictionaryService.RequestFrequencyState(remoteIpAddress, ipAddress);
+            var(requestState, message) = _globalIPDictionaryService.RequestFrequencyState(remoteIpAddress, traceRouteInput.ipAddress);
 
             if (requestState != RequestState.Pass) return message;
 
 
-            int timeout = 5000;           // Timeout in milliseconds
-            int maxHops = 100;
+            traceRouteInput.timeout = traceRouteInput.timeout ?? 10000;           // Timeout in milliseconds
+            traceRouteInput.maxhops = traceRouteInput.maxhops ?? 100;
 
             byte[] buffer = new byte[32]; // Default ping buffer
             Ping pingSender = new Ping();
@@ -35,15 +37,15 @@ namespace PINGIP_ORG.Services
             StringBuilder result = new StringBuilder();
 
             result.Append($"Source (Our Server): {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
-            result.Append($"Target: {ipAddress}").Append("\n").Append("\n");
+            result.Append($"Target: {traceRouteInput.ipAddress}").Append("\n").Append("\n");
 
-            result.Append($"Tracing route to {ipAddress} over a maximum of {maxHops} hops:").Append("\n").Append("\n");
+            result.Append($"Tracing route to {traceRouteInput.ipAddress} over a maximum of {traceRouteInput.maxhops} hops:").Append("\n").Append("\n");
 
             result.Append($"0 {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
 
             Stopwatch stopwatch = new Stopwatch();
 
-            for (int ttl = 1; ttl <= maxHops; ttl++)
+            for (int ttl = 1; ttl <= traceRouteInput.maxhops; ttl++)
             {
                 try
                 {
@@ -51,13 +53,22 @@ namespace PINGIP_ORG.Services
 
                     stopwatch.Start();
 
-                    PingReply reply = await pingSender.SendPingAsync(ipAddress, timeout, buffer, options);
+                    PingReply reply = await pingSender.SendPingAsync(traceRouteInput.ipAddress, traceRouteInput.timeout.Value, buffer, options);
 
                     stopwatch.Stop();
 
                     if (reply != null && (reply.Status == IPStatus.TtlExpired || reply.Status == IPStatus.Success))
                     {
                         result.Append($"{ttl} {reply.Address} - {stopwatch.ElapsedMilliseconds} ms").Append("\n");
+
+                        string? whoisResult;
+
+                        if (traceRouteInput.whois)
+                        {
+                            whoisResult = await QueryByIPAddress(reply.Address.ToString());
+
+                            result.Append(whoisResult);
+                        }
 
                         if (reply.Status == IPStatus.Success)
                         {
@@ -85,9 +96,23 @@ namespace PINGIP_ORG.Services
                 Thread.Sleep(1000); // Wait 1 second between pings
             }
 
-            _logger.LogInformation($"TraceRoute IP: TraceRoute {ipAddress}");
+            _logger.LogInformation($"TraceRoute IP: TraceRoute {traceRouteInput.ipAddress}");
 
             return result.ToString();
         }
+
+        public async Task<string> QueryByIPAddress(string ipAddress)
+        {
+            var result = await WhoisClient.QueryAsync(ipAddress);
+
+            var sb = new StringBuilder();
+
+            sb.Append($"AdressRange: {result.AddressRange.Begin} - {result.AddressRange.End}").Append("\n");
+            sb.Append($"OrganizationName: {result.OrganizationName}").Append("\n");
+            sb.Append(string.Join(" > RespondedServers (FQDN) ", result.RespondedServers)).AppendLine();
+
+            return sb.ToString();
+        }
+
     }
 }

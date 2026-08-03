@@ -25,10 +25,10 @@ namespace PINGIP_ORG.Controllers
         [EnableCors("AllowPingIpFrontend")]
         public async Task<IActionResult> AJAXIP()
         {
-            string remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
+            string? remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
                          ?? HttpContext.Connection.RemoteIpAddress?.ToString();
 
-            return Content(remoteIpAddress, "text/plain");
+            return Content(remoteIpAddress ?? "Unable to determine IP address", "text/plain");
         }
     }
 }

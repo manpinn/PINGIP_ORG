@@ -2,7 +2,7 @@
 {
     public class TraceRouteInput()
     {
-        public string ipAddress { get; set; }
+        public string? ipAddress { get; set; }
 
         public bool whois { get; set; }
 

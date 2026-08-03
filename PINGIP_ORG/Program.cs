@@ -2,7 +2,7 @@ using PINGIP_ORG.Services;
 using Serilog;
 using System.Runtime.InteropServices;
 
-WebApplicationBuilder builder = null;
+WebApplicationBuilder builder;
 
 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 {
@@ -15,6 +15,11 @@ else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         WebRootPath = "/opt/REGRESIK/PINGIP_ORG/wwwroot",
         ContentRootPath = "/opt/REGRESIK/PINGIP_ORG"
     });
+}
+else
+{
+    Console.WriteLine("Unsupported OS platform.");
+    return;
 }
 
 // Add services to the container.

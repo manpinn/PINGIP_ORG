@@ -23,9 +23,11 @@ namespace PINGIP_ORG.Services
 
         public async Task<string> TraceRoute(TraceRouteInput traceRouteInput, string remoteIpAddress)
         {
-            var(requestState, message) = _globalIPDictionaryService.RequestFrequencyState(remoteIpAddress, traceRouteInput.ipAddress);
+            if(traceRouteInput.ipAddress == null) return "IP address is required";
 
-            if (requestState != RequestState.Pass) return message;
+            var (requestState, message) = _globalIPDictionaryService.RequestFrequencyState(remoteIpAddress, traceRouteInput.ipAddress);
+
+            if (requestState != RequestState.Pass) return message ?? "Unable to trace route";
 
 
             traceRouteInput.timeout = traceRouteInput.timeout ?? 10000;           // Timeout in milliseconds
@@ -103,16 +105,24 @@ namespace PINGIP_ORG.Services
 
         public async Task<string> QueryByIPAddress(string ipAddress)
         {
-            var result = await WhoisClient.QueryAsync(ipAddress);
+            var options = new WhoisQueryOptions
+            {
+                Timeout = (int)TimeSpan.FromMilliseconds(5000).TotalMilliseconds,
+                Retries = 3,
+                RethrowExceptions = false
+            };
+
+            var result = await WhoisClient.QueryAsync(ipAddress, options, CancellationToken.None);
 
             var sb = new StringBuilder();
 
-            sb.Append($"AdressRange: {result.AddressRange.Begin} - {result.AddressRange.End}").Append("\n");
-            sb.Append($"OrganizationName: {result.OrganizationName}").Append("\n");
+            sb.Append($"AdressRange: {result.AddressRange.Begin} - {result.AddressRange.End}\n");
+            sb.Append($"OrganizationName: {result.OrganizationName}\n");
             sb.Append(string.Join(" > RespondedServers (FQDN) ", result.RespondedServers)).AppendLine();
 
             return sb.ToString();
         }
+
 
     }
 }

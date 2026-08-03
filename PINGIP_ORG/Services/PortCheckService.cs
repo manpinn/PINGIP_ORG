@@ -21,38 +21,82 @@ namespace PINGIP_ORG.Services
             _logger = logger;
         }
 
-        public async Task<string> PortCheck(string ipAddress, string remoteIpAddress, int port, IpAddressType ipType)
+        public async Task<string> PortCheck(string ipAddress, string remoteIpAddress, int port, IpAddressType ipType, Enums.ProtocolType connectionType)
         {
             string ipAddressToPrint = ipType == IpAddressType.IPv6 ? $"[{ipAddress}]" : ipAddress;
 
             var (requestState, message) = _globalIPDictionaryService.RequestFrequencyState(remoteIpAddress, ipAddress);
 
-            if (requestState != RequestState.Pass) return message;
+            if (requestState != RequestState.Pass) return message ?? "Request not allowed.";
 
             StringBuilder result = new StringBuilder();
 
             result.Append($"Source (Our Server): {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
             result.Append($"Target: {ipAddress}").Append("\n").Append("\n");
 
-            using (TcpClient tcpClient = new TcpClient())
+
+            if (connectionType == Enums.ProtocolType.TCP)
             {
-                try
+                using (TcpClient tcpClient = new TcpClient())
                 {
-                    await tcpClient.ConnectAsync(ipAddress, port).WaitAsync(TimeSpan.FromSeconds(5));
+                    try
+                    {
+                        await tcpClient.ConnectAsync(ipAddress, port).WaitAsync(TimeSpan.FromSeconds(5));
 
-                    result.Append($"Connection to {ipAddressToPrint}:{port} was successful.").Append("\n");
+                        result.Append($"Connection to {ipAddressToPrint}:{port} was successful.").Append("\n");
 
-                    _logger.LogInformation($"Port Check: Connected to {ipAddressToPrint}:{port} succesfully.");
+                        _logger.LogInformation($"Port Check: Connected to {ipAddressToPrint}:{port} succesfully.");
+                    }
+                    catch (SocketException ex)
+                    {
+                        result.Append($"SocketException. Failed to connect to {ipAddressToPrint}:{port} !")
+                            .Append("\n").Append(ex.Message);
+
+                        if (ex.InnerException != null)
+                            result.Append("\n").Append($"Inner Exception: {ex.InnerException.Message}\n");
+                    }
+                    catch (Exception ex)
+                    {
+                        result.Append($"Failed to connect to {ipAddressToPrint}:{port} !")
+                            .Append("\n").Append(ex.Message);
+
+                        if (ex.InnerException != null)
+                            result.Append("\n").Append($"Inner Exception: {ex.InnerException.Message}\n");
+                    }
                 }
-                catch (SocketException ex)
+            }
+            else if (connectionType == Enums.ProtocolType.UDP)
+            {
+                using (UdpClient udp = new UdpClient())
                 {
-                    result.Append($"Failed to connect to {ipAddressToPrint}:{port} !")
-                        .Append("\n").Append(ex.Message);
-                }
-                catch (Exception ex)
-                {
-                    result.Append($"Failed to connect to {ipAddressToPrint}:{port} !")
-                        .Append("\n").Append(ex.Message);
+                    udp.Client.ReceiveTimeout = 3;
+
+                    try
+                    {
+                        udp.Connect(ipAddress, port);
+
+                        byte[] data = Encoding.ASCII.GetBytes("ping");
+
+                        await udp.SendAsync(data, data.Length);
+
+                        var response = await udp.ReceiveAsync();
+
+                        result.Append($"UDP response from {ipAddress}:{port}: {Encoding.ASCII.GetString(response.Buffer)}\n");
+                    }
+                    catch (SocketException ex)
+                    {
+                        result.Append($"SocketException({ex.SocketErrorCode}, {(SocketError)ex.SocketErrorCode}): UDP port {port} CLOSED or unreachable.\nError: {ex.Message}\n");
+
+                        if (ex.InnerException != null)
+                            result.Append("\n").Append($"Inner Exception: {ex.InnerException.Message}\n");
+                    }
+                    catch (Exception ex)
+                    {
+                        result.Append($"UDP check failed for {ipAddress}:{port}.\n{ex.Message}\n");
+
+                        if (ex.InnerException != null)
+                            result.Append("\n").Append($"Inner Exception: {ex.InnerException.Message}\n");
+                    }
                 }
             }
 

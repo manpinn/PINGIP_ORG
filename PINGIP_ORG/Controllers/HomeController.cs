@@ -34,7 +34,7 @@ namespace PINGIP_ORG.Controllers
         [Route("/Home/AJAX/PingIP")]
         public async Task<IActionResult> AJAXPingIP([FromBody] string ipAddress)
         {
-            string remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
+            string? remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
                          ?? HttpContext.Connection.RemoteIpAddress?.ToString();
 
             if (string.IsNullOrEmpty(ipAddress) || string.IsNullOrEmpty(remoteIpAddress))

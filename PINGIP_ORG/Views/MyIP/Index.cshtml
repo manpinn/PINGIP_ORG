@@ -1,4 +1,5 @@
-﻿@{
+﻿@using PINGIP_ORG.Common
+@{
     ViewData["Title"] = "My IP-Address - Online-Tool";
 }
 
@@ -16,7 +17,7 @@
     </div>
    
 <div class="input-group mb-3">  
-    <input id="input-ip4" type="text" class="form-control" aria-label="IPV4-Address" aria-describedby="basic-addon1" readonly value="Detecting ...">
+    <input id="input-ip4" type="text" class="form-control" style="margin-top:10px; margin-bottom:10px;" aria-label="IPV4-Address" aria-describedby="basic-addon1" readonly value="Detecting ...">
     <button class="btn btn-outline-secondary" type="button" id="button-copy1" onclick="copyToClipboardBtn1()">Copy</button>
 </div>
 
@@ -24,7 +25,7 @@
         <span class="input-group-text bg-danger-subtle" id="basic-addon1">Your current IPv6-Address</span>
     </div>
 <div class="input-group mb-3">
-    <input id="input-ip6" type="text" class="form-control" aria-label="IPV6-Address" aria-describedby="basic-addon1" readonly value="Detecting ...">
+    <input id="input-ip6" type="text" class="form-control" style="margin-top:10px; margin-bottom:10px;" aria-label="IPV6-Address" aria-describedby="basic-addon1" readonly value="Detecting ...">
     <button class="btn btn-outline-secondary" type="button" id="button-copy2" onclick="copyToClipboardBtn2()">Copy</button>
 </div>
 
@@ -33,6 +34,13 @@
     <h2>Description</h2>
     <p>
         The online tool shows your current IP-Addresses in the internet.
+    </p>
+
+    <p>
+        <strong>Our Server's current IP-Address is @GlobalServerIPAddress.ServerIPAddress</strong>
+    </p>
+    <p>
+        The Server is located in Germany and hosted by <a href="https://aklam.io/pvCnV9ts" target="_blank">www.ionos.com</a> .
     </p>
 
 

@@ -33,7 +33,7 @@ namespace PINGIP_ORG.Controllers
         [Route("/Home/AJAX/TraceRoute")]
         public async Task<IActionResult> AJAXTraceRoute([FromBody] TraceRouteInput traceRouteInput)
         {
-            string remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
+            string? remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
                          ?? HttpContext.Connection.RemoteIpAddress?.ToString();
 
             if (string.IsNullOrEmpty(traceRouteInput.ipAddress) || string.IsNullOrEmpty(remoteIpAddress))

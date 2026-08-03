@@ -34,7 +34,7 @@ namespace PINGIP_ORG.Controllers
         [Route("/Home/AJAX/PortCheck")]
         public async Task<IActionResult> AJAXPortCheck([FromBody] PortCheckRequest request)
         {
-            string remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
+            string? remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
                          ?? HttpContext.Connection.RemoteIpAddress?.ToString();
 
             if (string.IsNullOrEmpty(request.IpAddress) || string.IsNullOrEmpty(remoteIpAddress))
@@ -42,16 +42,18 @@ namespace PINGIP_ORG.Controllers
                 return Content("Invalid Request", "text/plain");
             }
 
-            string result = await _portCheckService.PortCheck(request.IpAddress, remoteIpAddress, request.Port, request.IpType);
+            string result = await _portCheckService.PortCheck(request.IpAddress, remoteIpAddress, request.Port, request.IpType, request.ProtocolType);
 
             return Content(result, "text/plain");
         }
 
         public class PortCheckRequest
         {
-            public string IpAddress { get; set; }
+            public string? IpAddress { get; set; }
             public int Port { get; set; }
             public IpAddressType IpType { get; set; } // 1 for IPv4, 2 for IPv6
+
+            public ProtocolType ProtocolType { get; set; }
         }
     }
 }

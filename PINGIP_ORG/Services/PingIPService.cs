@@ -22,7 +22,7 @@ namespace PINGIP_ORG.Services
         {
             var (requestState, message) = _globalIPDictionaryService.RequestFrequencyState(remoteIpAddress, ipAddress);
 
-            if (requestState != RequestState.Pass) return message;
+            if (requestState != RequestState.Pass) return message ?? "Request not allowed.";
 
             int pingCount = 4;            // Default number of pings
             int timeout = 1000;           // Timeout in milliseconds
@@ -59,11 +59,11 @@ namespace PINGIP_ORG.Services
                         maxTime = Math.Max(maxTime, time);
                         totalTime += time;
 
-                        string replyBufferLength = null;
+                        string? replyBufferLength = null;
 
                         if (reply.Buffer != null) replyBufferLength = reply.Buffer.Length.ToString();
 
-                        string replyOptionsTtl = null;
+                        string? replyOptionsTtl = null;
 
                         if (reply.Options != null) replyOptionsTtl = reply.Options.Ttl.ToString();
 

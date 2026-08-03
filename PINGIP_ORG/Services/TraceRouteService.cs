@@ -1,6 +1,8 @@
-﻿using PINGIP_ORG.Common;
+﻿using DnsClient;
+using PINGIP_ORG.Common;
 using PINGIP_ORG.Enums;
 using PINGIP_ORG.Models;
+using System.Collections;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -23,7 +25,7 @@ namespace PINGIP_ORG.Services
 
         public async Task<string> TraceRoute(TraceRouteInput traceRouteInput, string remoteIpAddress)
         {
-            if(traceRouteInput.ipAddress == null) return "IP address is required";
+            if (traceRouteInput.ipAddress == null) return "IP address is required";
 
             var (requestState, message) = _globalIPDictionaryService.RequestFrequencyState(remoteIpAddress, traceRouteInput.ipAddress);
 
@@ -72,6 +74,17 @@ namespace PINGIP_ORG.Services
                             result.Append(whoisResult);
                         }
 
+                        string? nslookpuResult;
+
+                        if (traceRouteInput.dns)
+                        {
+                            nslookpuResult = await NSLookup(reply.Address.ToString());
+
+                            result.Append(nslookpuResult);
+                        }
+
+                        result.Append("\n");
+
                         if (reply.Status == IPStatus.Success)
                         {
                             result.Append("\n").Append("Trace complete.");
@@ -118,10 +131,54 @@ namespace PINGIP_ORG.Services
 
             sb.Append($"AdressRange: {result.AddressRange.Begin} - {result.AddressRange.End}\n");
             sb.Append($"OrganizationName: {result.OrganizationName}\n");
-            sb.Append(string.Join(" > RespondedServers (FQDN) ", result.RespondedServers)).AppendLine();
+            sb.Append(string.Join(" > RespondedServers (FQDN) ", result.RespondedServers));
 
             return sb.ToString();
         }
+
+        public async Task<string> NSLookup(string ipAddress)
+        {
+            var lookup = new LookupClient();
+
+            var result = await lookup.QueryReverseAsync(new System.Net.IPAddress(System.Net.IPAddress.Parse(ipAddress).GetAddressBytes()));
+
+            var aRecords = result.Answers.ARecords()
+                      .Select(x => x.Address)
+                      .ToList();
+
+            var cnames = result.Answers.CnameRecords()
+                     .Select(x => x.CanonicalName)
+                     .ToList();
+
+            var ptrs = result.Answers.PtrRecords()
+                               .Select(x => x.PtrDomainName)
+                               .ToList();
+
+            var sb = new StringBuilder();
+
+            //string aRecordsList = aRecords.Count > 0
+            //    ? string.Join(",\n", aRecords)
+            //    : "No A records";
+
+            //string cnamesList = cnames.Count > 0
+            //    ? string.Join(",\n", cnames)
+            //    : "No CNAMES records";
+
+            string ptrList = ptrs.Count > 0
+                ? string.Join(",\n", ptrs)
+                : "No PTR records";
+
+            //sb.Append(aRecordsList).Append("\n");
+
+            //sb.Append(cnamesList).Append("\n");
+
+            sb.Append(ptrList).Append("\n");
+
+            return sb.ToString();
+        }
+
+
+
 
 
     }

@@ -64,11 +64,15 @@ if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowPingIpFrontend", policy =>
+    options.AddPolicy("PingIpPolicy", policy =>
     {
-        policy.WithOrigins("https://pingip.org")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.WithOrigins(
+            "https://pingip.org",
+            "https://ipv4.pingip.org",
+            "https://ipv6.pingip.org"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod();
     });
 });
 

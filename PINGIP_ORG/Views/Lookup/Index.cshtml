@@ -2,10 +2,10 @@
 @using PINGIP_ORG.Services;
 
 @{
-    ViewData["Title"] = "WhoIs - Online-Tool";
+    ViewData["Title"] = "NSLookup - Online-Tool";
 }
 
-<h1 class="display-4 text-center border-bottom">WhoIs - Online Tool</h1>
+<h1 class="display-4 text-center border-bottom">NSLookup - Online Tool</h1>
 <br />
 <p>Ping a specific IP-Address and get connection statistics with the Online-Tool on this Website.</p>
 
@@ -148,7 +148,7 @@
             return;
         }
 
-        let url = '/Home/AJAX/Whois';
+        let url = '/Home/AJAX/NSLookup';
         let serverData = {};
 
         fetch(url, {

@@ -32,17 +32,17 @@ namespace PINGIP_ORG.Controllers
 
         [HttpPost]
         [Route("/Home/AJAX/PingIP")]
-        public async Task<IActionResult> AJAXPingIP([FromBody] string ipAddress)
+        public async Task<IActionResult> AJAXPingIP([FromBody] PingInput pingInput)
         {
             string? remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
                          ?? HttpContext.Connection.RemoteIpAddress?.ToString();
 
-            if (string.IsNullOrEmpty(ipAddress) || string.IsNullOrEmpty(remoteIpAddress))
+            if (string.IsNullOrEmpty(pingInput.ipAddress) || string.IsNullOrEmpty(remoteIpAddress))
             {
                 return Content("Invalid Request", "text/plain");
             }
 
-            string result = await _pingIPService.PingIP(ipAddress, remoteIpAddress);
+            string result = await _pingIPService.PingIP(pingInput, remoteIpAddress);
 
             return Content(result, "text/plain");
         }

@@ -1,7 +1,10 @@
-﻿using PINGIP_ORG.Common;
+﻿using DnsClient;
+using PINGIP_ORG.Common;
 using PINGIP_ORG.Enums;
+using PINGIP_ORG.Models;
 using System.Net.NetworkInformation;
 using System.Text;
+using Whois.NET;
 
 namespace PINGIP_ORG.Services
 {
@@ -18,9 +21,9 @@ namespace PINGIP_ORG.Services
             _logger = logger;
         }
 
-        public async Task<string> PingIP(string ipAddress, string remoteIpAddress)
+        public async Task<string> PingIP(PingInput pingInput, string remoteIpAddress)
         {
-            var (requestState, message) = _globalIPDictionaryService.RequestFrequencyState(remoteIpAddress, ipAddress);
+            var (requestState, message) = _globalIPDictionaryService.RequestFrequencyState(remoteIpAddress, pingInput.ipAddress);
 
             if (requestState != RequestState.Pass) return message ?? "Request not allowed.";
 
@@ -40,15 +43,15 @@ namespace PINGIP_ORG.Services
             StringBuilder result = new StringBuilder();
 
             result.Append($"Source (Our Server): {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
-            result.Append($"Target: {ipAddress}").Append("\n").Append("\n");
+            result.Append($"Target: {pingInput.ipAddress}").Append("\n").Append("\n");
 
-            result.Append($"Pinged {ipAddress} with {buffer.Length} bytes of data:").Append("\n").Append("\n");
+            result.Append($"Pinged {pingInput.ipAddress} with {buffer.Length} bytes of data:").Append("\n").Append("\n");
 
             for (int i = 0; i < pingCount; i++)
             {
                 try
                 {
-                    PingReply reply = await pingSender.SendPingAsync(ipAddress, timeout, buffer, options);
+                    PingReply reply = await pingSender.SendPingAsync(pingInput.ipAddress, timeout, buffer, options);
                     sent++;
 
                     if (reply != null && reply.Status == IPStatus.Success)
@@ -89,7 +92,7 @@ namespace PINGIP_ORG.Services
                 Thread.Sleep(1000); // Wait 1 second between pings
             }
 
-            result.Append("\n").Append($"Ping statistics for {ipAddress}:").Append("\n").Append("\n");
+            result.Append("\n").Append($"Ping statistics for {pingInput.ipAddress}:").Append("\n").Append("\n");
             result.Append($"Packets: Sent = {sent}, Received = {received}, Lost = {lost} ({((double)(lost * 100)) / (double)sent}% loss),").Append("\n");
 
             if (received > 0)
@@ -97,14 +100,95 @@ namespace PINGIP_ORG.Services
                 result.Append("Approximate round trip times in milli-seconds:").Append("\n");
                 result.Append($"Minimum = {minTime}ms, Maximum = {maxTime}ms, Average = {totalTime / received}ms").Append("\n");
 
-                _logger.LogInformation($"Ping IP: Pinged {ipAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms, AvgTime={totalTime / received}ms");
+                _logger.LogInformation($"Ping IP: Pinged {pingInput.ipAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms, AvgTime={totalTime / received}ms");
             }
             else
             {
-                _logger.LogInformation($"Ping IP: Pinged {ipAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms");
+                _logger.LogInformation($"Ping IP: Pinged {pingInput.ipAddress}: Sent={sent}, Received={received}, Lost={lost}, MinTime={minTime}ms, MaxTime={maxTime}ms");
+            }
+
+            string? whoisResult = null;
+
+            if (pingInput.whois)
+            {
+                whoisResult = await QueryByIPAddress(pingInput.ipAddress);
+
+                result.Append("\n").Append("WhoIs: ").Append("\n").Append(whoisResult);
+            }
+
+            string? nslookpuResult = null;
+
+            if (pingInput.dns)
+            {
+                nslookpuResult = await NSLookup(pingInput.ipAddress);
+
+                result.Append("\n\n").Append("NSLookUp: ").Append("\n").Append(nslookpuResult);
             }
 
             return result.ToString();
         }
+
+        public async Task<string> QueryByIPAddress(string ipAddress)
+        {
+            var options = new WhoisQueryOptions
+            {
+                Timeout = (int)TimeSpan.FromMilliseconds(5000).TotalMilliseconds,
+                Retries = 3,
+                RethrowExceptions = false
+            };
+
+            var result = await WhoisClient.QueryAsync(ipAddress, options, CancellationToken.None);
+
+            var sb = new StringBuilder();
+
+            sb.Append($"AdressRange: {result.AddressRange.Begin} - {result.AddressRange.End}\n");
+            sb.Append($"OrganizationName: {result.OrganizationName}\n");
+            sb.Append(string.Join(" > RespondedServers (FQDN) ", result.RespondedServers));
+
+            return sb.ToString();
+        }
+
+        public async Task<string> NSLookup(string ipAddress)
+        {
+            var lookup = new LookupClient();
+
+            var result = await lookup.QueryReverseAsync(new System.Net.IPAddress(System.Net.IPAddress.Parse(ipAddress).GetAddressBytes()));
+
+            var aRecords = result.Answers.ARecords()
+                      .Select(x => x.Address)
+                      .ToList();
+
+            var cnames = result.Answers.CnameRecords()
+                     .Select(x => x.CanonicalName)
+                     .ToList();
+
+            var ptrs = result.Answers.PtrRecords()
+                               .Select(x => x.PtrDomainName)
+                               .ToList();
+
+            var sb = new StringBuilder();
+
+            //string aRecordsList = aRecords.Count > 0
+            //    ? string.Join(",\n", aRecords)
+            //    : "No A records";
+
+            //string cnamesList = cnames.Count > 0
+            //    ? string.Join(",\n", cnames)
+            //    : "No CNAMES records";
+
+            string ptrList = ptrs.Count > 0
+                ? string.Join(",\n", ptrs)
+                : "No PTR records";
+
+            //sb.Append(aRecordsList).Append("\n");
+
+            //sb.Append(cnamesList).Append("\n");
+
+            sb.Append(ptrList).Append("\n");
+
+            return sb.ToString();
+        }
+
+
     }
 }

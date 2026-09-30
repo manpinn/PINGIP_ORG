@@ -110,7 +110,7 @@ namespace PINGIP_ORG.Services
 
             string? whoisResult = null;
 
-            if (pingInput.whois)
+            if (pingInput.whois && !pingInput.isHostname)
             {
                 whoisResult = await QueryByIPAddress(pingInput.ipAddress);
 
@@ -119,7 +119,7 @@ namespace PINGIP_ORG.Services
 
             string? nslookpuResult = null;
 
-            if (pingInput.dns)
+            if (pingInput.dns && !pingInput.isHostname)
             {
                 nslookpuResult = await NSLookup(pingInput.ipAddress);
 

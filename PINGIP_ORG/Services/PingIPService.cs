@@ -1,4 +1,5 @@
 ﻿using DnsClient;
+using Microsoft.Extensions.Validation;
 using PINGIP_ORG.Common;
 using PINGIP_ORG.Enums;
 using PINGIP_ORG.Models;
@@ -142,8 +143,15 @@ namespace PINGIP_ORG.Services
             var sb = new StringBuilder();
 
             sb.Append($"AdressRange: {result.AddressRange.Begin} - {result.AddressRange.End}\n");
+
             sb.Append($"OrganizationName: {result.OrganizationName}\n");
-            sb.Append(string.Join(" > RespondedServers (FQDN) ", result.RespondedServers));
+
+            foreach (var server in result.RespondedServers)
+            {
+                sb.Append($"RespondedServer (FQDN): {server}\n");
+            }
+
+            sb.Append($"Raw: {result.Raw}\n");
 
             return sb.ToString();
         }

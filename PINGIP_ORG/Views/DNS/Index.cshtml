@@ -44,10 +44,11 @@
 <div>
     <h2>Description</h2>
     <p>
-        The online tool allows you ping specific IP-Addresses to check their reachability and measure the round-trip time of messages sent to the target device. This is useful for troubleshooting network issues, ensuring services are running, or verifying firewall configurations.
-    </p>
-    <p>
-        The online tool establishes a server-sided connection between our server and the specified IP-Address.
+        The online tool allows you to perform a WHOIS lookup for a specific domain name or IP address. It retrieves publicly available registration information such as the domain owner (if not privacy protected), registrar, registration and expiration dates, nameservers, and status information.
+
+        This is useful for verifying domain ownership, investigating websites, checking registration details, monitoring domain expiration dates, or troubleshooting DNS and hosting-related issues.
+
+        The online tool establishes a server-sided connection to the appropriate WHOIS database and retrieves the available registration records for the specified domain name or IP address.
     </p>
     <p>
         <strong>Our Server's current IP-Address is @GlobalServerIPAddress.ServerIPAddress</strong>
@@ -57,63 +58,99 @@
         @Html.ActionLink(" Port Check - Check if ports are open on a specific IP-Address", "Index", "PortCheck", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
         @Html.ActionLink(" Trace Route - Trace Route on a specific IP-Address", "Index", "TraceRoute", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
         @Html.ActionLink(" My IP - Get your current IP-Address", "Index", "MyIP", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
+        @Html.ActionLink(" NSLookup - Get Registration Data", "Index", "Lookup", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })  
     </div>
     <br />
 
-    <h2 class="bi-question-circle-fill"> Understanding Ping Results</h2>
+    <h2>Understanding WHOIS Results</h2>
 
-    <p><strong>Ping</strong> is a network utility used to test the reachability of a host and measure the round-trip time of messages sent from the origin to the destination.</p>
+    <p>
+        <strong>WHOIS</strong> is a protocol used to retrieve registration information about domain names and IP addresses. It helps identify ownership details, registration dates, registrar information, nameservers, and domain status.
+    </p>
 
     <h3 class="bi-code-slash"> Example Output</h3>
+
     <div style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; margin-bottom:1rem;">
-        Pinged 8.8.8.8 with 32 bytes of data:<br />
-        Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
-        Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
-        Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
-        Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
-        <br />
-        Ping statistics for 8.8.8.8:<br />
-        Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),<br />
-        Approximate round trip times in milli-seconds:<br />
-        Minimum = 4ms, Maximum = 4ms, Average = 4ms
+   
+        Domain Name: example.com<br>
+        Registrar: Example Registrar Inc.<br>
+        Creation Date: 1995-08-13T04:00:00Z<br>
+        Expiration Date: 2027-08-12T04:00:00Z<br>
+        Updated Date: 2026-05-10T12:34:56Z<br>
+        Name Server: NS1.EXAMPLE.NET<br>
+        Name Server: NS2.EXAMPLE.NET<br>
+        Status: clientTransferProhibited
     </div>
 
     <h3 class="bi-clipboard2-pulse-fill"> Explanation of Parameters</h3>
+
     <ul>
-        <li><strong>Reply from</strong>: The IP-Address that responded to the ping.</li>
-        <li><strong>bytes=32</strong>: Size of each packet sent (in bytes). Default is 32 bytes.</li>
-        <li><strong>time=4ms</strong>: Time taken for the packet to go to the host and come back (round-trip time).</li>
-        <li><strong>TTL (Time To Live)</strong>: Limits the number of network hops a packet can take. It prevents infinite loops.</li>
+        <li>
+            <strong>Domain Name</strong>: The registered domain being queried.
+        </li>
+        <li>
+            <strong>Registrar</strong>: The company responsible for managing the domain registration.
+        </li>
+        <li>
+            <strong>Creation Date</strong>: The date when the domain was first registered.
+        </li>
+        <li>
+            <strong>Expiration Date</strong>: The date when the domain registration expires unless renewed.
+        </li>
+        <li>
+            <strong>Updated Date</strong>: The most recent date the registration information was modified.
+        </li>
+        <li>
+            <strong>Name Servers</strong>: DNS servers responsible for directing traffic to the domain.
+        </li>
+        <li>
+            <strong>Status</strong>: Domain protection and management status, such as transfer restrictions.
+        </li>
     </ul>
 
     <h3 class="bi-trophy"> Summary</h3>
+
     <ul>
-        <li><strong>Sent/Received/Lost</strong>: Shows network reliability.</li>
-        <li><strong>Loss Percentage</strong>: Packet loss indicates network issues.</li>
-        <li><strong>Round Trip Times</strong>: Helps determine network speed and stability (Min/Max/Avg).</li>
+        <li>
+            <strong>Ownership Information</strong>: Identifies the registrar and, where available, the registrant.
+        </li>
+        <li>
+            <strong>Registration Dates</strong>: Shows when the domain was registered, updated, and when it expires.
+        </li>
+        <li>
+            <strong>DNS Configuration</strong>: Displays the nameservers used by the domain.
+        </li>
+        <li>
+            <strong>Domain Status</strong>: Indicates protections or restrictions applied to the domain.
+        </li>
     </ul>
 
-    <h3 class="bi-clock-fill"> What is Round-Trip Time (RTT)?</h3>
+    <h3 class="bi-tools"> What Can WHOIS Be Used For?</h3>
+
     <p>
-        <strong> Round-trip time (RTT)</strong> refers to the time it takes for a packet of data to travel from your device to the target device (like a server) and then back again. RTT is often used to measure network latency.
+        <strong>WHOIS</strong> provides insight into the registration and management of domains and IP addresses. It is commonly used for:
     </p>
-    <p>
-        RTT is typically measured in milliseconds (ms). Here's how it works:
-    </p>
+
     <ul>
-        <li><strong>Ping:</strong> When you send a "ping" to a device, it sends back a response.</li>
-        <li><strong>Round-Trip:</strong> The time between sending the ping and receiving the response is the RTT.</li>
+        <li>
+            <strong>Domain Verification:</strong> Confirming that a domain is registered and active.
+        </li>
+        <li>
+            <strong>Ownership Research:</strong> Identifying registration details when publicly available.
+        </li>
+        <li>
+            <strong>Troubleshooting:</strong> Reviewing nameservers and registration status to diagnose DNS issues.
+        </li>
+        <li>
+            <strong>Monitoring Expiration Dates:</strong> Ensuring important domains remain registered.
+        </li>
     </ul>
-    <h4>RTT Breakdown:</h4>
-    <ul>
-        <li><strong>Minimum RTT:</strong> The fastest time it took for the packet to round trip.</li>
-        <li><strong>Maximum RTT:</strong> The longest time it took for the packet to round trip.</li>
-        <li><strong>Average RTT:</strong> The average time of multiple ping requests.</li>
-    </ul>
+
     <p>
-        <strong>Why is RTT important?</strong> A lower RTT indicates a faster connection with less latency, while a higher RTT suggests slower network performance.
+        <strong>Why is WHOIS important?</strong> It provides transparency about domain ownership and administration, helping website owners, network administrators, and security professionals investigate and manage internet resources.
     </p>
-</div>
+
+    <br>
 
 
 <script type="text/javascript">

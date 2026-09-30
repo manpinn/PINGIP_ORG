@@ -43,12 +43,15 @@
 <br />
 <div>
     <h2>Description</h2>
-    <p>
-        The online tool allows you ping specific IP-Addresses to check their reachability and measure the round-trip time of messages sent to the target device. This is useful for troubleshooting network issues, ensuring services are running, or verifying firewall configurations.
-    </p>
-    <p>
-        The online tool establishes a server-sided connection between our server and the specified IP-Address.
-    </p>
+<p>
+The online tool allows you to perform DNS lookups for specific domain names or hostnames using <strong>NSLookup</strong>. It helps resolve domain names to IP addresses and retrieve DNS records such as A, AAAA, MX, NS, TXT, and CNAME records.
+</p>
+<p>
+This is useful for troubleshooting DNS issues, verifying DNS configurations, checking mail server settings, validating domain records, or diagnosing connectivity problems.
+</p>
+<p>
+The online tool establishes a server-sided connection to DNS servers and queries the requested DNS records for the specified domain or hostname.
+</p>
     <p>
         <strong>Our Server's current IP-Address is @GlobalServerIPAddress.ServerIPAddress</strong>
     </p>
@@ -57,63 +60,64 @@
         @Html.ActionLink(" Port Check - Check if ports are open on a specific IP-Address", "Index", "PortCheck", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
         @Html.ActionLink(" Trace Route - Trace Route on a specific IP-Address", "Index", "TraceRoute", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
         @Html.ActionLink(" My IP - Get your current IP-Address", "Index", "MyIP", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
+        @Html.ActionLink(" WhoIs - Get Registration Data", "Index", "DNS", null, new { @class = "list-group-item list-group-item-action bi-play list-group-item-primary" })
     </div>
     <br />
 
-    <h2 class="bi-question-circle-fill"> Understanding Ping Results</h2>
+    <h2 class="bi-question-circle-fill"> Understanding NSLookup Results</h2>
 
-    <p><strong>Ping</strong> is a network utility used to test the reachability of a host and measure the round-trip time of messages sent from the origin to the destination.</p>
+<p>
+    <strong>NSLookup</strong> is a network administration tool used to query the Domain Name System (DNS). It helps resolve domain names to IP addresses and retrieve DNS records such as A, AAAA, MX, NS, TXT, and CNAME records.
+</p>
 
-    <h3 class="bi-code-slash"> Example Output</h3>
-    <div style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; margin-bottom:1rem;">
-        Pinged 8.8.8.8 with 32 bytes of data:<br />
-        Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
-        Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
-        Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
-        Reply from 8.8.8.8: bytes=32 time=4ms TTL=117<br />
-        <br />
-        Ping statistics for 8.8.8.8:<br />
-        Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),<br />
-        Approximate round trip times in milli-seconds:<br />
-        Minimum = 4ms, Maximum = 4ms, Average = 4ms
-    </div>
+<h3 class="bi-code-slash"> Example Output</h3>
 
-    <h3 class="bi-clipboard2-pulse-fill"> Explanation of Parameters</h3>
-    <ul>
-        <li><strong>Reply from</strong>: The IP-Address that responded to the ping.</li>
-        <li><strong>bytes=32</strong>: Size of each packet sent (in bytes). Default is 32 bytes.</li>
-        <li><strong>time=4ms</strong>: Time taken for the packet to go to the host and come back (round-trip time).</li>
-        <li><strong>TTL (Time To Live)</strong>: Limits the number of network hops a packet can take. It prevents infinite loops.</li>
-    </ul>
-
-    <h3 class="bi-trophy"> Summary</h3>
-    <ul>
-        <li><strong>Sent/Received/Lost</strong>: Shows network reliability.</li>
-        <li><strong>Loss Percentage</strong>: Packet loss indicates network issues.</li>
-        <li><strong>Round Trip Times</strong>: Helps determine network speed and stability (Min/Max/Avg).</li>
-    </ul>
-
-    <h3 class="bi-clock-fill"> What is Round-Trip Time (RTT)?</h3>
-    <p>
-        <strong> Round-trip time (RTT)</strong> refers to the time it takes for a packet of data to travel from your device to the target device (like a server) and then back again. RTT is often used to measure network latency.
-    </p>
-    <p>
-        RTT is typically measured in milliseconds (ms). Here's how it works:
-    </p>
-    <ul>
-        <li><strong>Ping:</strong> When you send a "ping" to a device, it sends back a response.</li>
-        <li><strong>Round-Trip:</strong> The time between sending the ping and receiving the response is the RTT.</li>
-    </ul>
-    <h4>RTT Breakdown:</h4>
-    <ul>
-        <li><strong>Minimum RTT:</strong> The fastest time it took for the packet to round trip.</li>
-        <li><strong>Maximum RTT:</strong> The longest time it took for the packet to round trip.</li>
-        <li><strong>Average RTT:</strong> The average time of multiple ping requests.</li>
-    </ul>
-    <p>
-        <strong>Why is RTT important?</strong> A lower RTT indicates a faster connection with less latency, while a higher RTT suggests slower network performance.
-    </p>
+<div style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; margin-bottom:1rem;">
+    Server: dns.google<br />
+    Address: 8.8.8.8<br />
+    <br />
+    Non-authoritative answer:<br />
+    Name: example.com<br />
+    Address: 93.184.216.34
 </div>
+
+<h3 class="bi-clipboard2-pulse-fill"> Explanation of Parameters</h3>
+
+<ul>
+    <li><strong>Server</strong>: The DNS server used to perform the lookup.</li>
+    <li><strong>Address</strong>: The IP address of the DNS server.</li>
+    <li><strong>Non-authoritative Answer</strong>: The result was returned from a cached DNS server rather than directly from the authoritative nameserver.</li>
+    <li><strong>Name</strong>: The hostname or domain name that was queried.</li>
+    <li><strong>Address</strong>: The IP address associated with the queried hostname.</li>
+</ul>
+
+<h3 class="bi-trophy"> Summary</h3>
+
+<ul>
+    <li><strong>Domain Resolution</strong>: Verifies that a domain resolves to the correct IP address.</li>
+    <li><strong>DNS Validation</strong>: Helps troubleshoot DNS propagation and configuration issues.</li>
+    <li><strong>Mail Server Checks</strong>: Can retrieve MX records for email troubleshooting.</li>
+    <li><strong>Nameserver Verification</strong>: Can retrieve NS records to verify DNS delegation.</li>
+</ul>
+
+<h3 class="bi-diagram-3-fill"> Common DNS Record Types</h3>
+
+<ul>
+    <li><strong>A Record</strong>: Maps a domain name to an IPv4 address.</li>
+    <li><strong>AAAA Record</strong>: Maps a domain name to an IPv6 address.</li>
+    <li><strong>MX Record</strong>: Specifies mail servers responsible for receiving email.</li>
+    <li><strong>NS Record</strong>: Identifies the authoritative nameservers for a domain.</li>
+    <li><strong>TXT Record</strong>: Stores text information such as SPF, DKIM, and domain verification records.</li>
+    <li><strong>CNAME Record</strong>: Creates an alias from one hostname to another.</li>
+</ul>
+
+<h3 class="bi-tools"> Why is NSLookup Important?</h3>
+
+<p>
+    <strong>NSLookup</strong> helps administrators and users verify DNS settings, troubleshoot domain-related problems, and ensure internet services are correctly configured and reachable.
+</p>
+
+<br>
 
 
 <script type="text/javascript">

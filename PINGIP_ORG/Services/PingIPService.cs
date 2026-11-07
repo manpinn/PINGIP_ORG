@@ -43,7 +43,7 @@ namespace PINGIP_ORG.Services
 
             StringBuilder result = new StringBuilder();
 
-            result.Append($"Source (Our Server): {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
+            //result.Append($"Source (Our Server): {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
             result.Append($"Target: {pingInput.ipAddress}").Append("\n").Append("\n");
 
             result.Append($"Pinged {pingInput.ipAddress} with {buffer.Length} bytes of data:").Append("\n").Append("\n");

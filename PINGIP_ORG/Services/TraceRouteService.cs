@@ -40,12 +40,12 @@ namespace PINGIP_ORG.Services
 
             StringBuilder result = new StringBuilder();
 
-            //result.Append($"Source (Our Server): {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
+            result.Append($"Source (Our Server): {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
             result.Append($"Target: {traceRouteInput.ipAddress}").Append("\n").Append("\n");
 
             result.Append($"Tracing route to {traceRouteInput.ipAddress} over a maximum of {traceRouteInput.maxhops} hops:").Append("\n").Append("\n");
 
-            //result.Append($"0 {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
+            result.Append($"0 {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
 
             Stopwatch stopwatch = new Stopwatch();
 

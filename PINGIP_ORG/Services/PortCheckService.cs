@@ -31,7 +31,7 @@ namespace PINGIP_ORG.Services
 
             StringBuilder result = new StringBuilder();
 
-            //result.Append($"Source (Our Server): {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
+            result.Append($"Source (Our Server): {GlobalServerIPAddress.ServerIPAddress}").Append("\n");
             result.Append($"Target: {ipAddress}").Append("\n").Append("\n");
 
 

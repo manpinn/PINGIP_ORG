@@ -7,13 +7,13 @@
 
 <h1 class="display-4 text-center border-bottom">NSLookup - Online Tool</h1>
 <br />
-<p>Ping a specific IP-Address and get connection statistics with the Online-Tool on this Website.</p>
+<p>Ping a specific IP-Address or Hostname and get connection statistics with the Online-Tool on this Website.</p>
 
 <div class="input-group mb-3">
     <div class="input-group-prepend">
         <span class="input-group-text bg-dark-subtle" id="basic-addon1">IPv4 / IPv6-Address</span>
     </div>
-    <input id="input-ip" type="text" class="form-control" placeholder="Type in the IP-Address here (8.8.8.8 Google)" aria-label="IPv4/IPv6-Address" aria-describedby="basic-addon1">
+    <input id="input-ip" type="text" class="form-control" placeholder="Type here (8.8.8.8 or www.google.com)" aria-label="IPv4/IPv6-Address Or Host" aria-describedby="basic-addon1">
 </div>
 
 <div class="d-grid gap-2 d-md-flex">
@@ -43,15 +43,15 @@
 <br />
 <div>
     <h2>Description</h2>
-<p>
-The online tool allows you to perform DNS lookups for specific domain names or hostnames using <strong>NSLookup</strong>. It helps resolve domain names to IP addresses and retrieve DNS records such as A, AAAA, MX, NS, TXT, and CNAME records.
-</p>
-<p>
-This is useful for troubleshooting DNS issues, verifying DNS configurations, checking mail server settings, validating domain records, or diagnosing connectivity problems.
-</p>
-<p>
-The online tool establishes a server-sided connection to DNS servers and queries the requested DNS records for the specified domain or hostname.
-</p>
+    <p>
+        The online tool allows you to perform DNS lookups for specific domain names or hostnames using <strong>NSLookup</strong>. It helps resolve domain names to IP addresses and retrieve DNS records such as A, AAAA, MX, NS, TXT, and CNAME records.
+    </p>
+    <p>
+        This is useful for troubleshooting DNS issues, verifying DNS configurations, checking mail server settings, validating domain records, or diagnosing connectivity problems.
+    </p>
+    <p>
+        The online tool establishes a server-sided connection to DNS servers and queries the requested DNS records for the specified domain or hostname.
+    </p>
     <p>
         <strong>Our Server's current IP-Address is @GlobalServerIPAddress.ServerIPAddress</strong>
     </p>
@@ -66,205 +66,227 @@ The online tool establishes a server-sided connection to DNS servers and queries
 
     <h2 class="bi-question-circle-fill"> Understanding NSLookup Results</h2>
 
-<p>
-    <strong>NSLookup</strong> is a network administration tool used to query the Domain Name System (DNS). It helps resolve domain names to IP addresses and retrieve DNS records such as A, AAAA, MX, NS, TXT, and CNAME records.
-</p>
+    <p>
+        <strong>NSLookup</strong> is a network administration tool used to query the Domain Name System (DNS). It helps resolve domain names to IP addresses and retrieve DNS records such as A, AAAA, MX, NS, TXT, and CNAME records.
+    </p>
 
-<h3 class="bi-code-slash"> Example Output</h3>
+    <h3 class="bi-code-slash"> Example Output</h3>
 
-<div style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; margin-bottom:1rem;">
-    Server: dns.google<br />
-    Address: 8.8.8.8<br />
-    <br />
-    Non-authoritative answer:<br />
-    Name: example.com<br />
-    Address: 93.184.216.34
-</div>
+    <div style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; margin-bottom:1rem;">
+        Server: dns.google<br />
+        Address: 8.8.8.8<br />
+        <br />
+        Non-authoritative answer:<br />
+        Name: example.com<br />
+        Address: 93.184.216.34
+    </div>
 
-<h3 class="bi-clipboard2-pulse-fill"> Explanation of Parameters</h3>
+    <h3 class="bi-clipboard2-pulse-fill"> Explanation of Parameters</h3>
 
-<ul>
-    <li><strong>Server</strong>: The DNS server used to perform the lookup.</li>
-    <li><strong>Address</strong>: The IP address of the DNS server.</li>
-    <li><strong>Non-authoritative Answer</strong>: The result was returned from a cached DNS server rather than directly from the authoritative nameserver.</li>
-    <li><strong>Name</strong>: The hostname or domain name that was queried.</li>
-    <li><strong>Address</strong>: The IP address associated with the queried hostname.</li>
-</ul>
+    <ul>
+        <li><strong>Server</strong>: The DNS server used to perform the lookup.</li>
+        <li><strong>Address</strong>: The IP address of the DNS server.</li>
+        <li><strong>Non-authoritative Answer</strong>: The result was returned from a cached DNS server rather than directly from the authoritative nameserver.</li>
+        <li><strong>Name</strong>: The hostname or domain name that was queried.</li>
+        <li><strong>Address</strong>: The IP address associated with the queried hostname.</li>
+    </ul>
 
-<h3 class="bi-trophy"> Summary</h3>
+    <h3 class="bi-trophy"> Summary</h3>
 
-<ul>
-    <li><strong>Domain Resolution</strong>: Verifies that a domain resolves to the correct IP address.</li>
-    <li><strong>DNS Validation</strong>: Helps troubleshoot DNS propagation and configuration issues.</li>
-    <li><strong>Mail Server Checks</strong>: Can retrieve MX records for email troubleshooting.</li>
-    <li><strong>Nameserver Verification</strong>: Can retrieve NS records to verify DNS delegation.</li>
-</ul>
+    <ul>
+        <li><strong>Domain Resolution</strong>: Verifies that a domain resolves to the correct IP address.</li>
+        <li><strong>DNS Validation</strong>: Helps troubleshoot DNS propagation and configuration issues.</li>
+        <li><strong>Mail Server Checks</strong>: Can retrieve MX records for email troubleshooting.</li>
+        <li><strong>Nameserver Verification</strong>: Can retrieve NS records to verify DNS delegation.</li>
+    </ul>
 
-<h3 class="bi-diagram-3-fill"> Common DNS Record Types</h3>
+    <h3 class="bi-diagram-3-fill"> Common DNS Record Types</h3>
 
-<ul>
-    <li><strong>A Record</strong>: Maps a domain name to an IPv4 address.</li>
-    <li><strong>AAAA Record</strong>: Maps a domain name to an IPv6 address.</li>
-    <li><strong>MX Record</strong>: Specifies mail servers responsible for receiving email.</li>
-    <li><strong>NS Record</strong>: Identifies the authoritative nameservers for a domain.</li>
-    <li><strong>TXT Record</strong>: Stores text information such as SPF, DKIM, and domain verification records.</li>
-    <li><strong>CNAME Record</strong>: Creates an alias from one hostname to another.</li>
-</ul>
+    <ul>
+        <li><strong>A Record</strong>: Maps a domain name to an IPv4 address.</li>
+        <li><strong>AAAA Record</strong>: Maps a domain name to an IPv6 address.</li>
+        <li><strong>MX Record</strong>: Specifies mail servers responsible for receiving email.</li>
+        <li><strong>NS Record</strong>: Identifies the authoritative nameservers for a domain.</li>
+        <li><strong>TXT Record</strong>: Stores text information such as SPF, DKIM, and domain verification records.</li>
+        <li><strong>CNAME Record</strong>: Creates an alias from one hostname to another.</li>
+    </ul>
 
-<h3 class="bi-tools"> Why is NSLookup Important?</h3>
+    <h3 class="bi-tools"> Why is NSLookup Important?</h3>
 
-<p>
-    <strong>NSLookup</strong> helps administrators and users verify DNS settings, troubleshoot domain-related problems, and ensure internet services are correctly configured and reachable.
-</p>
+    <p>
+        <strong>NSLookup</strong> helps administrators and users verify DNS settings, troubleshoot domain-related problems, and ensure internet services are correctly configured and reachable.
+    </p>
 
-<br>
+    <br>
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    var buttonPing = document.getElementById('btn-ping');
+            var buttonPing = document.getElementById('btn-ping');
 
-    function ping() {
-        //alert('Hello, World!');
-
-        cmdSpan.innerHTML = '';
-
-        document.getElementById('ml-alert').classList.add('d-none');
-
-        document.querySelector('.ml-spinner').style.display = 'flex';
-
-        let retVal = getValues();
-
-        if (retVal == -1) {
-            document.querySelector('.ml-spinner').style.display = 'none';
-
-            const alert = document.getElementById('ml-alert');
-
-            alert.classList.remove('d-none');
-
-            alert.innerHTML = 'INSERT A VALID IP-ADDRESS';
-
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-
-            return;
-        }
-
-        let url = '/Home/AJAX/NSLookup';
-        let serverData = {};
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        body: JSON.stringify(retVal)
-        })
-            .then(response => response.text())
-            .then(text => {
-                serverData = text;
-                console.log(serverData);
-
-                document.querySelector('.ml-spinner').style.display = 'none';
-
-                index = 0;
+            function ping() {
+                //alert('Hello, World!');
 
                 cmdSpan.innerHTML = '';
 
-                nextChar(text);
-            })
-            .catch((error) => {
+                document.getElementById('ml-alert').classList.add('d-none');
 
-                document.querySelector('.ml-spinner').style.display = 'none';
+                document.querySelector('.ml-spinner').style.display = 'flex';
 
-                const alert = document.getElementById('ml-alert');
+                let retVal = getValues();
 
-                alert.innerHTML = 'SERVER-ERROR';
+                if (retVal == -1) {
+                    document.querySelector('.ml-spinner').style.display = 'none';
 
-                alert.classList.add('d-none');
+                    const alert = document.getElementById('ml-alert');
 
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                    alert.classList.remove('d-none');
 
-                console.error('Error:', error);
-            });
+                    alert.innerHTML = 'INSERT A VALID IP-ADDRESS';
 
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
 
-    }
+                    return;
+                }
 
-    function isValidIPv4(ip) {
-        const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-        return regex.test(ip);
-    }
+                const isHostName = isHostname(retVal)
 
-    function isValidIPv6(ip) {
-        const regex = /([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4})|::|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:([0-9a-fA-F]{1,4})|([0-9a-fA-F]{1,4}:){1,5}:([0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}:([0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}:([0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}:([0-9a-fA-F]{1,4}){1,5}|([0-9a-fA-F]{1,4}:){1,1}:([0-9a-fA-F]{1,4}){1,6}$/i;
-        return regex.test(ip);
-    }
+                const payload = {
+                    ipAddress: retVal,
+                    isHostname: isHostName,
+                    whois: false,
+                    dns: false,
+                };
 
+                let url = '/Home/AJAX/NSLookup';
+                let serverData = {};
 
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                    .then(response => response.text())
+                    .then(text => {
+                        serverData = text;
+                        console.log(serverData);
 
-    function getValues() {
+                        document.querySelector('.ml-spinner').style.display = 'none';
 
-        const input = document.getElementById('input-ip');
+                        index = 0;
 
-        if(isValidIPv4(input.value) || isValidIPv6(input.value))
-        {
-            return input.value;
-        }
-        else
-        {
-            return -1;
-        }
-    }
+                        cmdSpan.innerHTML = '';
 
-    buttonPing.addEventListener('click', ping);
+                        nextChar(text);
+                    })
+                    .catch((error) => {
 
-    function copyToClipboard()
-    {
-        // Get the content from the cmd-span element
-        const text = document.getElementById('cmd-span').innerText;
+                        document.querySelector('.ml-spinner').style.display = 'none';
 
-        // Create a temporary text area to copy the text
-        const tempTextArea = document.createElement('textarea');
-        tempTextArea.value = text;
-        document.body.appendChild(tempTextArea);
+                        const alert = document.getElementById('ml-alert');
 
-        // Select the text in the text area
-        tempTextArea.select();
-        tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+                        alert.innerHTML = 'SERVER-ERROR';
 
-        // Execute the copy command
-        document.execCommand('copy');
+                        alert.classList.add('d-none');
 
-        // Remove the temporary text area
-        document.body.removeChild(tempTextArea);
-    }
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        });
 
-    let index = 0;
-
-    var cmdSpan = document.getElementById('cmd-span');
-
-    function nextChar(text)
-    {
-        if (index < text.length)
-        {
-            cmdSpan.innerHTML += text.charAt(index);
-
-            index++;
-
-            setTimeout(() => nextChar(text), 5); // Tippgeschwindigkeit in ms (anpassen)
-        }
-    }
-
-</script>
+                        console.error('Error:', error);
+                    });
 
 
-@* <div class="list-group" style="">
+            }
+
+            function isValidIPv4(ip) {
+                const regex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+                return regex.test(ip);
+            }
+
+            function isValidIPv6(ip) {
+                const regex = /([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4})|::|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:([0-9a-fA-F]{1,4})|([0-9a-fA-F]{1,4}:){1,5}:([0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}:([0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}:([0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}:([0-9a-fA-F]{1,4}){1,5}|([0-9a-fA-F]{1,4}:){1,1}:([0-9a-fA-F]{1,4}){1,6}$/i;
+                return regex.test(ip);
+            }
+
+            function isHostname(value) {
+                value = normalizeTarget(value);
+
+                const hostname = /^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+
+                return hostname.test(value);
+            }
+
+            function normalizeTarget(input) {
+                return input
+                    .trim()
+                    .replace(/^https?:\/\//i, '')
+                    .replace(/\/.*$/, '');
+            }
+
+
+            function getValues() {
+
+                const input = document.getElementById('input-ip');
+
+                let value = normalizeTarget(input.value);
+
+                if (isValidIPv4(value) ||
+                    isValidIPv6(value) ||
+                    isHostname(value)) {
+                    return value;
+                }
+                else {
+                    return -1;
+                }
+            }
+
+            buttonPing.addEventListener('click', ping);
+
+            function copyToClipboard() {
+                // Get the content from the cmd-span element
+                const text = document.getElementById('cmd-span').innerText;
+
+                // Create a temporary text area to copy the text
+                const tempTextArea = document.createElement('textarea');
+                tempTextArea.value = text;
+                document.body.appendChild(tempTextArea);
+
+                // Select the text in the text area
+                tempTextArea.select();
+                tempTextArea.setSelectionRange(0, 99999); // For mobile devices
+
+                // Execute the copy command
+                document.execCommand('copy');
+
+                // Remove the temporary text area
+                document.body.removeChild(tempTextArea);
+            }
+
+            let index = 0;
+
+            var cmdSpan = document.getElementById('cmd-span');
+
+            function nextChar(text) {
+                if (index < text.length) {
+                    cmdSpan.innerHTML += text.charAt(index);
+
+                    index++;
+
+                    setTimeout(() => nextChar(text), 5); // Tippgeschwindigkeit in ms (anpassen)
+                }
+            }
+
+    </script>
+
+
+    @* <div class="list-group" style="">
     @Html.ActionLink(" Modules", "Index", "Module", null, new { @class = "list-group-item list-group-item-action bi-play" })
     @Html.ActionLink(" About", "About", "Home", null, new { @class = "list-group-item list-group-item-action bi-play" })
 </div> *@

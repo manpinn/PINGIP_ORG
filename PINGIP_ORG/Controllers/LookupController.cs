@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using PINGIP_ORG.Models;
 using PINGIP_ORG.Services;
 
 namespace PINGIP_ORG.Controllers
@@ -30,19 +32,30 @@ namespace PINGIP_ORG.Controllers
 
         [HttpPost]
         [Route("/Home/AJAX/NSLookup")]
-        public async Task<IActionResult> AJAXNSLookup([FromBody] string inputIP)
+        public async Task<IActionResult> AJAXNSLookup([FromBody] PingInput inputIP)
         {
             string? remoteIpAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
                          ?? HttpContext.Connection.RemoteIpAddress?.ToString();
 
-            if (string.IsNullOrEmpty(inputIP) || string.IsNullOrEmpty(remoteIpAddress))
+            if (string.IsNullOrEmpty(inputIP.ipAddress) || string.IsNullOrEmpty(remoteIpAddress))
             {
                 return Content("Invalid Request", "text/plain");
             }
 
-            string result = await _pingIPService.NSLookup(inputIP);
+            string result = string.Empty;
 
-            result = "NSLookup for " + inputIP + "\n\n" + result;
+            if (inputIP.isHostname == true)
+            {
+                result = await _pingIPService.ReverseNSLookup(inputIP.ipAddress);
+
+                result = "NSLookup for " + inputIP + "\n\n" + result;
+            }
+            else
+            {
+                result = await _pingIPService.NSLookup(inputIP.ipAddress);
+
+                result = "NSLookup for " + inputIP + "\n\n" + result;
+            }
 
             return Content(result, "text/plain");
         }

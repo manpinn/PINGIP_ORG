@@ -197,6 +197,21 @@ namespace PINGIP_ORG.Services
             return sb.ToString();
         }
 
+        public async Task<string> ReverseNSLookup(string hostName)
+        {
+            var lookup = new LookupClient();
+
+            var result = await lookup.QueryAsync(hostName, QueryType.A);
+
+            var ips = result.Answers
+                .ARecords()
+                .Select(x => x.Address.ToString())
+                .ToList();
+
+            return ips.Count > 0
+                ? string.Join(Environment.NewLine, ips)
+                : "No A records found";
+        }
 
     }
 }
